@@ -60,7 +60,7 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<Identitiy> {
 	@Override
 	protected boolean matchesSafely(Identitiy item, final Description mismatchDescription) {
 		boolean matches = true;
-		mismatchDescription.appendText("was UserDto");
+		mismatchDescription.appendText("was IdentityDto");
 
 		if (!email.matches(item.getEmail())) {
 			mismatchDescription.appendText(" with email=").appendValue(item.getEmail());

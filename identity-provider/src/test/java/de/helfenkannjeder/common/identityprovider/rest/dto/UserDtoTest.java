@@ -14,7 +14,7 @@
 //    @Test
 //    public void testUserToUserDto() {
 //        Identitiy user = UserObjectMother.anyValidUser();
-//        UserDto dto = UserDto.createFullDto(user);
+//        IdentityDto dto = IdentityDto.createFullDto(user);
 //
 //        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
 //                .withGivenName(dto.getGivenName())
@@ -25,8 +25,8 @@
 //
 //    @Test
 //    public void testVolunteerDtoToVolunteer() {
-//        UserDto dto = UserDtoObjectMother.anyValidUserDto();
-//        Identitiy user = UserDto.createUser(dto);
+//        IdentityDto dto = UserDtoObjectMother.anyValidUserDto();
+//        Identitiy user = IdentityDto.createUser(dto);
 //
 //        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
 //                .withSurname(dto.getSurname())

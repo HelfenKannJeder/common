@@ -1,7 +1,7 @@
 package de.helfenkannjeder.common.identityprovider.rest;
 
 import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
-import de.helfenkannjeder.common.identityprovider.rest.dto.UserDto;
+import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import de.helfenkannjeder.common.identityprovider.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,13 @@ public class IdentityController {
 	private IdentityService identityService;
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
-	public UserDto getUser(@PathVariable Long id) {
-		return UserDto.createFullDto(identityService.findById(id));
+	public IdentityDto getUser(@PathVariable Long id) {
+		return IdentityDto.createFullDto(identityService.findById(id));
 	}
 
-	public UserDto createUser(UserDto userDto) {
-		Identitiy identitiy = UserDto.createUser(userDto);
+	public IdentityDto createUser(IdentityDto identityDto) {
+		Identitiy identitiy = IdentityDto.createUser(identityDto);
 		identitiy = identityService.createUser(identitiy);
-		return UserDto.createFullDto(identitiy);
+		return IdentityDto.createFullDto(identitiy);
 	}
 }
