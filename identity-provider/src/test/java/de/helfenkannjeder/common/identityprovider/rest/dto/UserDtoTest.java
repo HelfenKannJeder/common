@@ -2,7 +2,7 @@
 //
 //import de.helfenkannjeder.common.identityprovider.cucumber.util.UserDtoObjectMother;
 //import de.helfenkannjeder.common.identityprovider.cucumber.util.UserObjectMother;
-//import de.helfenkannjeder.common.identityprovider.domain.User;
+//import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
 //import de.helfenkannjeder.common.identityprovider.matchers.UserMatcher;
 //import org.junit.Test;
 //
@@ -13,7 +13,7 @@
 //
 //    @Test
 //    public void testUserToUserDto() {
-//        User user = UserObjectMother.anyValidUser();
+//        Identitiy user = UserObjectMother.anyValidUser();
 //        UserDto dto = UserDto.createFullDto(user);
 //
 //        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
@@ -26,7 +26,7 @@
 //    @Test
 //    public void testVolunteerDtoToVolunteer() {
 //        UserDto dto = UserDtoObjectMother.anyValidUserDto();
-//        User user = UserDto.createUser(dto);
+//        Identitiy user = UserDto.createUser(dto);
 //
 //        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
 //                .withSurname(dto.getSurname())
