@@ -19,7 +19,7 @@ public enum AuthenticationProvider {
 
 	public static AuthenticationProvider getByApiName(String apiName) {
 		for (AuthenticationProvider authenticationProvider : values()) {
-			if (authenticationProvider.apiName.equals(apiName)) {
+			if (authenticationProvider.apiName.equalsIgnoreCase(apiName)) {
 				return authenticationProvider;
 			}
 		}

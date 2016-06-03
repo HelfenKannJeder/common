@@ -2,6 +2,7 @@ package de.helfenkannjeder.common.identityprovider.rest.dto;
 
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjectMother;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityObjectMother;
+import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityMatcher;
@@ -37,7 +38,7 @@ public class IdentityDtoTest {
 				.withSurname(dto.getSurname())
 				.withGivenName(dto.getGivenName())
 				.withPhone(dto.getPhone())
-				.withAuthProvider(dto.getAuthProvider())
+				.withAuthProvider(AuthenticationProvider.getByApiName(dto.getAuthProvider()))
 				.withExternalId(dto.getExternalId()));
 	}
 }
