@@ -1,13 +1,13 @@
 package de.helfenkannjeder.common.identityprovider.rest.exceptionhandling;
 
-import java.util.List;
-import java.util.UUID;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.helfenkannjeder.common.identityprovider.configuration.ObjectMapperFactory;
 import de.helfenkannjeder.common.identityprovider.rest.logging.LogSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.UUID;
 
 public class LoggableErrorResponseCreator {
 
@@ -27,7 +27,9 @@ public class LoggableErrorResponseCreator {
     }
 
     public LoggableErrorResponseCreator withClientErrors(List<ClientError> clientErrors) {
-        errorResponse.clientErrors = clientErrors;
+        if(clientErrors!= null && clientErrors.size() != 0) {
+            errorResponse.clientErrors = clientErrors;
+        }
 
         return this;
     }
