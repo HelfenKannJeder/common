@@ -1,14 +1,19 @@
 package de.helfenkannjeder.common.identityprovider.rest.dto;
 
+import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
+import de.helfenkannjeder.common.identityprovider.rest.dto.validation.ValueOfAuthenticationProvider;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 
 public class IdentityDto {
 
 	private Long id;
 
-	@NotEmpty(message = "not.empty")
+	@NotNull
+	@ValueOfAuthenticationProvider()
 	private String authProvider;
 
 	@NotEmpty(message = "not.empty")
@@ -42,11 +47,11 @@ public class IdentityDto {
 	}
 
 	public static IdentityDto createFullDto(Identity identity) {
-		return new IdentityDto(identity.getId(), identity.getAuthProvider(), identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
+		return new IdentityDto(identity.getId(), identity.getAuthProvider().getApiName(), identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
 	}
 
 	public static Identity createUser(IdentityDto user) {
-		return new Identity(user.getId(), user.getAuthProvider(), user.getExternalId(), user.email, user.givenName, user.surname, user.phone);
+		return new Identity(user.getId(), AuthenticationProvider.getByApiName(user.getAuthProvider()), user.getExternalId(), user.email, user.givenName, user.surname, user.phone);
 	}
 
 	public Long getId() {

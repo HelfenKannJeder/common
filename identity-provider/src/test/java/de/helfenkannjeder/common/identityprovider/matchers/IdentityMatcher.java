@@ -34,7 +34,7 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 				.withEmail(identity.getEmail())
 				.withGivenName(identity.getGivenName())
 				.withSurname(identity.getSurname())
-				.withAuthProvider(identity.getAuthProvider())
+				.withAuthProvider(identity.getAuthProvider().getApiName())
 				.withExternalId(identity.getExternalId())
 				.withPhone(identity.getPhone());
 	}

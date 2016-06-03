@@ -12,7 +12,7 @@ public class Identity extends AbstractVersionedAuditable {
 	@GeneratedValue
 	private Long id = null;
 
-	private String authProvider;
+	private AuthenticationProvider authProvider;
 	private String externalId;
 
 	@Column(unique = true)
@@ -25,7 +25,7 @@ public class Identity extends AbstractVersionedAuditable {
 	public Identity() {
 	}
 
-	public Identity(Long id, String authProvider, String externalId, String email, String givenName, String surname, String phone) {
+	public Identity(Long id, AuthenticationProvider authProvider, String externalId, String email, String givenName, String surname, String phone) {
 		this.id = id;
 		this.authProvider = authProvider;
 		this.externalId = externalId;
@@ -87,11 +87,11 @@ public class Identity extends AbstractVersionedAuditable {
 		return this;
 	}
 
-	public String getAuthProvider() {
+	public AuthenticationProvider getAuthProvider() {
 		return authProvider;
 	}
 
-	public Identity setAuthProvider(String authProvider) {
+	public Identity setAuthProvider(AuthenticationProvider authProvider) {
 		this.authProvider = authProvider;
 		return this;
 	}

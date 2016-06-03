@@ -22,7 +22,7 @@ public class IdentityDtoTest {
 				.withGivenName(dto.getGivenName())
 				.withSurname(dto.getSurname())
 				.withPhone(dto.getPhone())
-				.withAuthProvider(identity.getAuthProvider())
+				.withAuthProvider(identity.getAuthProvider().getApiName())
 				.withExternalId(identity.getExternalId()));
 	}
 
