@@ -19,7 +19,7 @@ Feature: Crud operations for identities
     Given an existing identity
     And the user changes a property of the identity
     When the identity is updated
-    Then the updated volunteer is returned
+    Then the updated identity is returned
 
   Scenario: Update a non existing identity
     Given a non existing identity
