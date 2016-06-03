@@ -2,6 +2,7 @@ package de.helfenkannjeder.oauth.provider.configuration;
 
 import de.helfenkannjeder.oauth.provider.security.OAuthProviderAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,27 +22,40 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    public static final String COME2HELP_CLIENT_WEB = "come2help-web";
+    public static final String CLIENT_CREDENTIALS = "client_credentials";
+    public static final String AUTHORIZATION_CODE = "authorization_code";
+    public static final String SCOPE_DEFAULT = "default";
+
     private TokenStore tokenStore = new InMemoryTokenStore();
+
+    @Value("${oauth.client.admin.clientId}")
+    private String adminClientId;
+
+    @Value("${oauth.client.admin.secret}")
+    private String adminSecret;
+
+    @Value("${oauth.client.come2help.clientId}")
+    private String come2helpClientId;
+
+    @Value("${oauth.client.come2help.secret}")
+    private String come2helpClientSecret;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // @formatter:off
         clients.inMemory()
-                .withClient("admin")
-                .secret("internal")
-                .resourceIds("come2help")
-                .authorizedGrantTypes("client_credentials")
-                .scopes("read")
+                .withClient(adminClientId)
+                .secret(adminSecret)
+                .authorizedGrantTypes(CLIENT_CREDENTIALS)
+                .scopes(SCOPE_DEFAULT)
                 .authorities(OAuthProviderAuthority.ROLE_ADMIN.getAuthority(),
                         OAuthProviderAuthority.ROLE_USER.getAuthority())
             .and()
-                .withClient(COME2HELP_CLIENT_WEB)
-                .resourceIds("come2help")
-                .authorizedGrantTypes("authorization_code")
-                .authorities(OAuthProviderAuthority.ROLE_USER.getAuthority())
-                .scopes("read", "write")
-                .secret("secret");
+                .withClient(come2helpClientId)
+                .secret(come2helpClientSecret)
+                .authorizedGrantTypes(AUTHORIZATION_CODE)
+                .scopes(SCOPE_DEFAULT)
+                .authorities(OAuthProviderAuthority.ROLE_USER.getAuthority());
         // @formatter:on
     }
 

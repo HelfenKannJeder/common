@@ -12,3 +12,11 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.H2Dialect
+
+oauth.client:
+    admin:
+        clientId: oauth-provider-admin
+        secret: default-secret
+    come2help:
+        clientId: come2help-web
+        secret: secret

@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebIntegrationTest
+@WebIntegrationTest(randomPort = true)
 @SpringApplicationConfiguration(classes = OAuth2ProviderApplication.class)
 public class UserManagementControllerTest {
 

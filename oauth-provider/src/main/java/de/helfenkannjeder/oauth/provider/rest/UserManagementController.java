@@ -37,14 +37,14 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
     @Override
     @RequestMapping(value = UPDATE, method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestParam("id") String id, UserRequestDto userRequestDto) {
-
+    public void update(@PathVariable("id") String id, UserRequestDto userRequestDto) {
+        throw new RuntimeException("Not yet implemented");
     }
 
     @Override
     @RequestMapping(value = DELETE, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestParam("id") String id) {
-
+    public void delete(@PathVariable("id") String id) {
+        throw new RuntimeException("Not yet implemented");
     }
 }
