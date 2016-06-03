@@ -13,6 +13,7 @@ import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import org.hamcrest.CoreMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.ConfigFileApplicationContextInitializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,7 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@ContextConfiguration(classes = TestApplicationConfiguration.class)
+@ContextConfiguration(classes = TestApplicationConfiguration.class, initializers = ConfigFileApplicationContextInitializer.class)
 public class IdentitySteps {
 
     private final IdentityProviderApiTestFacade facade;

@@ -19,7 +19,7 @@ public class IdentityApiRestClient {
     private final String serviceBaseUrl;
 
     @Autowired
-    public IdentityApiRestClient(RestTemplate restTemplate, @Value("${come2help.baseUrl}") String serviceBaseUrl) {
+    public IdentityApiRestClient(RestTemplate restTemplate, @Value("${identityProvider.baseUrl}") String serviceBaseUrl) {
         this.restTemplate = restTemplate;
         this.serviceBaseUrl = serviceBaseUrl;
     }

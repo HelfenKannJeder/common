@@ -6,15 +6,12 @@ import java.util.List;
 import com.google.common.collect.Iterables;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import de.helfenkannjeder.common.identityprovider.cucumber.configuration.TestApplicationConfiguration;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityApiRestClient;
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 
-@ContextConfiguration(classes = TestApplicationConfiguration.class)
 public class IdentityProviderApiTestFacade {
 
     private final IdentityApiRestClient identityApiRestClient;
