@@ -2,13 +2,13 @@ package de.helfenkannjeder.common.identityprovider.cucumber.util;
 
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 
-public class UserDtoObjectMother {
+public class IdentityDtoObjectMother {
 
     public static IdentityDto anyValidUserDto() {
-        return IdentityDto.createFullDto(UserObjectMother.anyValidUser());
+        return IdentityDto.createFullDto(IdentityObjectMother.anyValidIdentity());
     }
 
     public static IdentityDto anyInvalidUserDto() {
-        return IdentityDto.createFullDto(UserObjectMother.anyInvalidUser());
+        return IdentityDto.createFullDto(IdentityObjectMother.anyInvalidIdentity());
     }
 }

@@ -1,11 +1,11 @@
 package de.helfenkannjeder.common.identityprovider.domain.repository;
 
-import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
+import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface IdentityRepository extends CrudRepository<Identitiy, Long> {
+public interface IdentityRepository extends CrudRepository<Identity, Long> {
 
-    Identitiy findByEmail(String email);
+    Identity findByEmail(String email);
 
-    Identitiy findByAuthProviderAndExternalId(String authProvider, String externalId);
+    Identity findByAuthProviderAndExternalId(String authProvider, String externalId);
 }

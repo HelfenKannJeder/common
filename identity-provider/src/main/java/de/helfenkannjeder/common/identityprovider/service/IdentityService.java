@@ -1,7 +1,7 @@
 package de.helfenkannjeder.common.identityprovider.service;
 
 import com.google.common.collect.Lists;
-import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
+import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.domain.repository.IdentityRepository;
 import de.helfenkannjeder.common.identityprovider.service.exception.ConcurrentDeletedException;
 import de.helfenkannjeder.common.identityprovider.service.exception.DuplicateResourceException;
@@ -23,63 +23,63 @@ public class IdentityService {
         this.identityRepository = identityRepository;
     }
 
-    public List<Identitiy> findAll() {
+    public List<Identity> findAll() {
         return Lists.newArrayList(identityRepository.findAll());
     }
 
-    public Identitiy findByEmail(String email) {
+    public Identity findByEmail(String email) {
         return identityRepository.findByEmail(email);
     }
 
-    public Identitiy findById(Long id) {
+    public Identity findById(Long id) {
         return identityRepository.findOne(id);
     }
 
-    public Identitiy createUser(Identitiy identitiy) {
-        if (identitiy == null) {
-            return identitiy;
+    public Identity createUser(Identity identity) {
+        if (identity == null) {
+            return identity;
         }
 
-        Identitiy tmp = identityRepository.findByEmail(identitiy.getEmail());
+        Identity tmp = identityRepository.findByEmail(identity.getEmail());
         if (tmp != null) {
-            throw new DuplicateResourceException(format("An identitiy with email %s already exists", identitiy.getEmail()));
+            throw new DuplicateResourceException(format("An identity with email %s already exists", identity.getEmail()));
         }
 
-        return identityRepository.save(identitiy);
+        return identityRepository.save(identity);
     }
 
-    public Identitiy updateUser(Identitiy identitiy) {
-        if (identitiy == null) {
+    public Identity updateUser(Identity identity) {
+        if (identity == null) {
             return null;
         }
 
-        if (identitiy.getId() == null) {
+        if (identity.getId() == null) {
             throw InvalidDataException.forSingleError("id.not.null", null);
         }
 
-        Identitiy tmp = identityRepository.findOne(identitiy.getId());
+        Identity tmp = identityRepository.findOne(identity.getId());
         if (tmp == null) {
-            throw new ConcurrentDeletedException(identitiy.getId());
+            throw new ConcurrentDeletedException(identity.getId());
         }
 
-        return identityRepository.save(identitiy);
+        return identityRepository.save(identity);
     }
 
     //TODO should we really delete users or to be able to track historical stuff just soft-delete/deactivate them?
     public void deleteUserById(Long id) {
-        Identitiy identitiy = identityRepository.findOne(id);
-        if (identitiy == null) {
+        Identity identity = identityRepository.findOne(id);
+        if (identity == null) {
             return;
         }
 
         identityRepository.delete(id);
     }
 
-    public void deleteUser(Identitiy identitiy) {
-        if (identitiy == null) {
+    public void deleteUser(Identity identity) {
+        if (identity == null) {
             return;
         }
 
-        deleteUserById(identitiy.getId());
+        deleteUserById(identity.getId());
     }
 }

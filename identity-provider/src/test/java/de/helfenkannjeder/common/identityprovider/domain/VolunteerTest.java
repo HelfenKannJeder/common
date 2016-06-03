@@ -16,7 +16,7 @@
 //public class VolunteerTest {
 //
 //    @Mock
-//    private Identitiy user1;
+//    private Identity user1;
 //
 //    @Test
 //    public void testUpdate() {

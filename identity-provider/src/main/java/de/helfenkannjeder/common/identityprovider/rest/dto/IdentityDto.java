@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.rest.dto;
 
-import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
+import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -18,7 +18,6 @@ public class IdentityDto {
 	@NotEmpty(message = "not.empty")
 	private String surname;
 
-
 	private String phone;
 
 
@@ -32,12 +31,20 @@ public class IdentityDto {
 		this.phone = phone;
 	}
 
-	public static IdentityDto createFullDto(Identitiy identitiy) {
-		return new IdentityDto(identitiy.getEmail(), identitiy.getGivenName(), identitiy.getSurname(), identitiy.getPhone());
+	public static IdentityDto createFullDto(Identity identity) {
+		return new IdentityDto(identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
 	}
 
-	public static Identitiy createUser(IdentityDto user) {
-		return new Identitiy(user.email, user.givenName, user.surname, user.phone);
+	public static Identity createUser(IdentityDto user) {
+		return new Identity(user.email, user.givenName, user.surname, user.phone);
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getEmail() {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(
 		uniqueConstraints = @UniqueConstraint(columnNames = {"authProvider", "externalId"})
 )
-public class Identitiy extends AbstractVersionedAuditable {
+public class Identity extends AbstractVersionedAuditable {
 
 	@Id
 	@GeneratedValue
@@ -22,28 +22,28 @@ public class Identitiy extends AbstractVersionedAuditable {
 	private String surname;
 	private String phone;
 
-	public Identitiy() {
+	public Identity() {
 	}
 
-	public Identitiy(String email, String givenName, String surname, String phone) {
+	public Identity(String email, String givenName, String surname, String phone) {
 		this.email = email;
 		this.givenName = givenName;
 		this.surname = surname;
 		this.phone = phone;
 	}
 
-	public void update(Identitiy identitiy) {
-		this.email = identitiy.getEmail();
-		this.givenName = identitiy.getGivenName();
-		this.surname = identitiy.getSurname();
-		this.phone = identitiy.getPhone();
+	public void update(Identity identity) {
+		this.email = identity.getEmail();
+		this.givenName = identity.getGivenName();
+		this.surname = identity.getSurname();
+		this.phone = identity.getPhone();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public Identitiy setId(Long id) {
+	public Identity setId(Long id) {
 		this.id = id;
 		return this;
 	}
@@ -52,7 +52,7 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return email;
 	}
 
-	public Identitiy setEmail(String email) {
+	public Identity setEmail(String email) {
 		this.email = email;
 		return this;
 	}
@@ -61,7 +61,7 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return givenName;
 	}
 
-	public Identitiy setGivenName(String givenName) {
+	public Identity setGivenName(String givenName) {
 		this.givenName = givenName;
 		return this;
 	}
@@ -70,7 +70,7 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return surname;
 	}
 
-	public Identitiy setSurname(String surname) {
+	public Identity setSurname(String surname) {
 		this.surname = surname;
 		return this;
 	}
@@ -79,7 +79,7 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return phone;
 	}
 
-	public Identitiy setPhone(String phone) {
+	public Identity setPhone(String phone) {
 		this.phone = phone;
 		return this;
 	}
@@ -88,7 +88,7 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return authProvider;
 	}
 
-	public Identitiy setAuthProvider(String authProvider) {
+	public Identity setAuthProvider(String authProvider) {
 		this.authProvider = authProvider;
 		return this;
 	}
@@ -97,14 +97,14 @@ public class Identitiy extends AbstractVersionedAuditable {
 		return externalId;
 	}
 
-	public Identitiy setExternalId(String externalId) {
+	public Identity setExternalId(String externalId) {
 		this.externalId = externalId;
 		return this;
 	}
 
 	@Override
 	public String toString() {
-		return "Identitiy{" +
+		return "Identity{" +
 				"id=" + id +
 				", authProvider='" + authProvider + '\'' +
 				", externalId='" + externalId + '\'' +

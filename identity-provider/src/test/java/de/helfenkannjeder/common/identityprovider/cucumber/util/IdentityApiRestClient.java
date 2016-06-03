@@ -24,21 +24,21 @@ public class IdentityApiRestClient {
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
-    public ResponseEntity<IdentityDto> createVolunteer(IdentityDto identityDto) {
+    public ResponseEntity<IdentityDto> createIdentity(IdentityDto identityDto) {
         return restTemplate.exchange(getVolunteersUrl(), HttpMethod.POST, createHttpEntity(identityDto), IdentityDto.class);
     }
 
-    public ResponseEntity<IdentityDto> getVolunteer(Long id) {
+    public ResponseEntity<IdentityDto> getIdentity(Long id) {
         return restTemplate.exchange(getVolunteersUrl(), HttpMethod.GET, null, IdentityDto.class, id);
     }
 
     /*
-    public ResponseEntity<UserDto> updateVolunteer(IdentityDto identityDto) {
+    public ResponseEntity<UserDto> updateIdentity(IdentityDto identityDto) {
         return restTemplate.exchange(getVolunteerUrl(), HttpMethod.PUT, createHttpEntity(identityDto), IdentityDto.class, identityDto.getId());
     }
     */
 
-    public HttpStatus deleteVolunteer(Long id) {
+    public HttpStatus deleteIdentity(Long id) {
         ResponseEntity<Void> responseEntity = restTemplate.exchange(getVolunteerUrl(), HttpMethod.DELETE, null, Void.class, id);
 
         return responseEntity.getStatusCode();

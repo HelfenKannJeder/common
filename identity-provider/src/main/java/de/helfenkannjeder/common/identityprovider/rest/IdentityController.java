@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.rest;
 
-import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
+import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import de.helfenkannjeder.common.identityprovider.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,8 @@ public class IdentityController {
 	}
 
 	public IdentityDto createUser(IdentityDto identityDto) {
-		Identitiy identitiy = IdentityDto.createUser(identityDto);
-		identitiy = identityService.createUser(identitiy);
-		return IdentityDto.createFullDto(identitiy);
+		Identity identity = IdentityDto.createUser(identityDto);
+		identity = identityService.createUser(identity);
+		return IdentityDto.createFullDto(identity);
 	}
 }
