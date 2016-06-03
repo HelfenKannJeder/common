@@ -4,7 +4,7 @@ import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjec
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityObjectMother;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
-import de.helfenkannjeder.common.identityprovider.matchers.UserMatcher;
+import de.helfenkannjeder.common.identityprovider.matchers.IdentityMatcher;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,7 +21,9 @@ public class IdentityDtoTest {
 				.withEmail(dto.getEmail())
 				.withGivenName(dto.getGivenName())
 				.withSurname(dto.getSurname())
-				.withPhone(dto.getPhone()));
+				.withPhone(dto.getPhone())
+				.withAuthProvider(identity.getAuthProvider())
+				.withExternalId(identity.getExternalId()));
 	}
 
 	@Test
@@ -29,9 +31,13 @@ public class IdentityDtoTest {
 		IdentityDto dto = IdentityDtoObjectMother.anyValidUserDto();
 		Identity identity = IdentityDto.createUser(dto);
 
-		assertThat(identity, UserMatcher.matchesUser().withEmail(dto.getEmail())
+		assertThat(identity, IdentityMatcher.matchesIdentity()
+				.withId(dto.getId())
+				.withEmail(dto.getEmail())
 				.withSurname(dto.getSurname())
 				.withGivenName(dto.getGivenName())
-				.withPhone(dto.getPhone()));
+				.withPhone(dto.getPhone())
+				.withAuthProvider(dto.getAuthProvider())
+				.withExternalId(dto.getExternalId()));
 	}
 }

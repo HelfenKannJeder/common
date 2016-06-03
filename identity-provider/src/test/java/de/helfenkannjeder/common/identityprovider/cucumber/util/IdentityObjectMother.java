@@ -10,7 +10,9 @@ public class IdentityObjectMother {
                 .setGivenName("Max")
                 .setSurname("Muster")
                 .setEmail("max@muster.com")
-                .setPhone("+49232");
+                .setPhone("+49232")
+				.setAuthProvider("FACEBOOK")
+				.setExternalId("external-id-bla");
     }
 
     public static Identity anyInvalidIdentity() {

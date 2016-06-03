@@ -25,7 +25,10 @@ public class Identity extends AbstractVersionedAuditable {
 	public Identity() {
 	}
 
-	public Identity(String email, String givenName, String surname, String phone) {
+	public Identity(Long id, String authProvider, String externalId, String email, String givenName, String surname, String phone) {
+		this.id = id;
+		this.authProvider = authProvider;
+		this.externalId = externalId;
 		this.email = email;
 		this.givenName = givenName;
 		this.surname = surname;

@@ -9,6 +9,12 @@ public class IdentityDto {
 	private Long id;
 
 	@NotEmpty(message = "not.empty")
+	private String authProvider;
+
+	@NotEmpty(message = "not.empty")
+	private String externalId;
+
+	@NotEmpty(message = "not.empty")
 	@Email(message = "not.invalid")
 	private String email;
 
@@ -18,11 +24,6 @@ public class IdentityDto {
 	@NotEmpty(message = "not.empty")
 	private String surname;
 
-	@NotEmpty(message = "not.empty")
-	private String authProvider;
-
-	@NotEmpty(message = "not.empty")
-	private String externalId;
 
 	private String phone;
 
@@ -30,7 +31,10 @@ public class IdentityDto {
 	public IdentityDto() {
 	}
 
-	public IdentityDto(String email, String givenName, String surname, String phone) {
+	public IdentityDto(Long id, String authProvider, String externalId, String email, String givenName, String surname, String phone) {
+		this.id = id;
+		this.authProvider = authProvider;
+		this.externalId = externalId;
 		this.email = email;
 		this.givenName = givenName;
 		this.surname = surname;
@@ -38,19 +42,20 @@ public class IdentityDto {
 	}
 
 	public static IdentityDto createFullDto(Identity identity) {
-		return new IdentityDto(identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
+		return new IdentityDto(identity.getId(), identity.getAuthProvider(), identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
 	}
 
 	public static Identity createUser(IdentityDto user) {
-		return new Identity(user.email, user.givenName, user.surname, user.phone);
+		return new Identity(user.getId(), user.getAuthProvider(), user.getExternalId(), user.email, user.givenName, user.surname, user.phone);
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public IdentityDto setId(Long id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getEmail() {
@@ -84,16 +89,18 @@ public class IdentityDto {
 		return authProvider;
 	}
 
-	public void setAuthProvider(String authProvider) {
+	public IdentityDto setAuthProvider(String authProvider) {
 		this.authProvider = authProvider;
+		return this;
 	}
 
 	public String getExternalId() {
 		return externalId;
 	}
 
-	public void setExternalId(String externalId) {
+	public IdentityDto setExternalId(String externalId) {
 		this.externalId = externalId;
+		return this;
 	}
 
 	public String getPhone() {
