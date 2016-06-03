@@ -40,6 +40,8 @@ public class Identity extends AbstractVersionedAuditable {
 		this.email = identity.getEmail();
 		this.givenName = identity.getGivenName();
 		this.surname = identity.getSurname();
+		this.authProvider = identity.getAuthProvider();
+		this.externalId = identity.getExternalId();
 		this.phone = identity.getPhone();
 	}
 

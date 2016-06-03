@@ -31,7 +31,7 @@ public class IdentityDtoTest {
 
 	@Test
 	public void testIdentityDtoToIdentity() {
-		IdentityDto dto = IdentityDtoObjectMother.anyValidUserDto();
+		IdentityDto dto = IdentityDtoObjectMother.anyValidIdentityDto();
 		Identity identity = IdentityDtoMapper.createIdentity(dto);
 
 		assertThat(identity, IdentityMatcher.matchesIdentity()

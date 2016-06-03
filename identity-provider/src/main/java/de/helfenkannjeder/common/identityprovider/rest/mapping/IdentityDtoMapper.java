@@ -13,8 +13,8 @@ public final class IdentityDtoMapper {
 				identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
 	}
 
-	public static Identity createIdentity(IdentityDto user) {
-		return new Identity(user.getId(), AuthenticationProviderMapper.mapToDomain(user.getAuthProvider()),
-				user.getExternalId(), user.getEmail(), user.getGivenName(), user.getSurname(), user.getPhone());
+	public static Identity createIdentity(IdentityDto identityDto) {
+		return new Identity(identityDto.getId(), AuthenticationProviderMapper.mapToDomain(identityDto.getAuthProvider()),
+				identityDto.getExternalId(), identityDto.getEmail(), identityDto.getGivenName(), identityDto.getSurname(), identityDto.getPhone());
 	}
 }
