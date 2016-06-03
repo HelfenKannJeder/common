@@ -6,6 +6,7 @@ public class IdentityObjectMother {
 
     public static Identity anyValidIdentity() {
         return new Identity()
+                .setId(42L)
                 .setGivenName("Max")
                 .setSurname("Muster")
                 .setEmail("max@muster.com")

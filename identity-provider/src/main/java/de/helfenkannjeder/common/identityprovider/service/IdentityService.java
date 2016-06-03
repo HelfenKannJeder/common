@@ -45,6 +45,8 @@ public class IdentityService {
 			throw new DuplicateResourceException(format("An identity with email %s already exists", identity.getEmail()));
 		}
 
+
+
 		return identityRepository.save(identity);
 	}
 
