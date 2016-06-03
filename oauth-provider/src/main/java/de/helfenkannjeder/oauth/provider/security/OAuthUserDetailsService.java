@@ -1,9 +1,8 @@
-package de.helfenkannjeder.oauth.provider.service;
+package de.helfenkannjeder.oauth.provider.security;
 
 import de.helfenkannjeder.oauth.provider.domain.OAuthUser;
 import de.helfenkannjeder.oauth.provider.domain.repository.OAuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,14 +30,7 @@ public class OAuthUserDetailsService implements UserDetailsService {
         if (user == null) {
             return null;
         }
-        return new User(user.getUsername(), user.getPassword(), Collections.singleton(Authority.ROLE_USER));
+        return new User(user.getUsername(), user.getPassword(), Collections.singleton(OAuthProviderAuthority.ROLE_USER));
     }
 
-    public enum Authority implements GrantedAuthority {
-        ROLE_USER;
-
-        public String getAuthority() {
-            return name();
-        }
-    }
 }

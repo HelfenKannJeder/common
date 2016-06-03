@@ -2,6 +2,7 @@ package de.helfenkannjeder.oauth.provider.service;
 
 import de.helfenkannjeder.oauth.provider.domain.OAuthUser;
 import de.helfenkannjeder.oauth.provider.domain.repository.OAuthUserRepository;
+import de.helfenkannjeder.oauth.provider.security.OAuthUserDetailsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

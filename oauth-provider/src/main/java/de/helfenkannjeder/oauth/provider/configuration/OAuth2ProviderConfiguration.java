@@ -1,6 +1,6 @@
 package de.helfenkannjeder.oauth.provider.configuration;
 
-import de.helfenkannjeder.oauth.provider.service.OAuthUserDetailsService;
+import de.helfenkannjeder.oauth.provider.security.OAuthProviderAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +27,19 @@ public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAd
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // @formatter:off
-        clients.inMemory().withClient(COME2HELP_CLIENT_WEB)
+        clients.inMemory()
+                .withClient("admin")
+                .secret("internal")
+                .resourceIds("come2help")
+                .authorizedGrantTypes("client_credentials")
+                .scopes("read")
+                .authorities(OAuthProviderAuthority.ROLE_ADMIN.getAuthority(),
+                        OAuthProviderAuthority.ROLE_USER.getAuthority())
+            .and()
+                .withClient(COME2HELP_CLIENT_WEB)
                 .resourceIds("come2help")
                 .authorizedGrantTypes("authorization_code")
-                .authorities(OAuthUserDetailsService.Authority.ROLE_USER.getAuthority())
+                .authorities(OAuthProviderAuthority.ROLE_USER.getAuthority())
                 .scopes("read", "write")
                 .secret("secret");
         // @formatter:on
