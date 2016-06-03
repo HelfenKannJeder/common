@@ -2,6 +2,8 @@ package de.helfenkannjeder.common.identityprovider.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.helfenkannjeder.common.identityprovider.rest.logging.RestLogFilter;
+import de.helfenkannjeder.oauth.provider.api.UserApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -31,5 +33,10 @@ public class IdentityProviderApplication {
 		filterRegistrationBean.setFilter(new RestLogFilter());
 		filterRegistrationBean.setOrder(1);
 		return filterRegistrationBean;
+	}
+
+	@Bean
+	public UserApi helfenKannJederOAuthProviderApi(@Value("${helfenKannJederOAuthProvider.endpoint}") String endpoint, ObjectMapper objectMapper) {
+		return UserApi.createUserApi(endpoint, objectMapper);
 	}
 }

@@ -1,9 +1,5 @@
 package de.helfenkannjeder.common.identityprovider.service;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Lists;
 import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
@@ -14,11 +10,7 @@ import de.helfenkannjeder.common.identityprovider.service.exception.InvalidDataE
 import de.helfenkannjeder.oauth.provider.api.UserApi;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
-import feign.Feign;
-import feign.jackson.JacksonDecoder;
-import feign.jackson.JacksonEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,18 +24,9 @@ public class IdentityService {
 	private final UserApi helfenKannJederOAuthProviderApi;
 
 	@Autowired
-	public IdentityService(IdentityRepository identityRepository, @Value("${helfenKannJederOAuthProvider.endpoint}") String helfenKannJederOAuthProviderApiEndpoint) {
+	public IdentityService(IdentityRepository identityRepository, UserApi helfenKannJederOAuthProviderApi) {
 		this.identityRepository = identityRepository;
-
-		ObjectMapper mapper = new ObjectMapper()
-				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-				.configure(SerializationFeature.INDENT_OUTPUT, true)
-				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		this.helfenKannJederOAuthProviderApi = Feign.builder()
-				.encoder(new JacksonEncoder(mapper))
-				.decoder(new JacksonDecoder(mapper))
-				.target(UserApi.class, helfenKannJederOAuthProviderApiEndpoint);
+		this.helfenKannJederOAuthProviderApi = helfenKannJederOAuthProviderApi;
 	}
 
 	public List<Identity> findAll() {
