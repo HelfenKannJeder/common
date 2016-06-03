@@ -1,8 +1,8 @@
 package de.helfenkannjeder.oauth.provider.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
+import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import feign.Feign;
 import feign.Param;
 import feign.RequestLine;

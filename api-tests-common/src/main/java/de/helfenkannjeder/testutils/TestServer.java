@@ -1,4 +1,4 @@
-package de.helfenkannjeder.oauth.provider.api.util;
+package de.helfenkannjeder.testutils;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -17,16 +17,16 @@ public class TestServer {
     private static int PORT;
     private static HttpServer SERVER = null;
 
-    public static void startHttpServer() throws IOException {
-        if (SERVER != null) {
-            return;
+    public static int startHttpServer() throws IOException {
+        if (SERVER == null) {
+            ServerSocket serverSocket = new ServerSocket(0);
+            PORT = serverSocket.getLocalPort();
+            serverSocket.close();
+            SERVER = HttpServer.create(new InetSocketAddress(PORT), 0);
+            SERVER.setExecutor(null); // creates a default executor
+            SERVER.start();
         }
-        ServerSocket serverSocket = new ServerSocket(0);
-        PORT = serverSocket.getLocalPort();
-        serverSocket.close();
-        SERVER = HttpServer.create(new InetSocketAddress(PORT), 0);
-        SERVER.setExecutor(null); // creates a default executor
-        SERVER.start();
+        return getPort();
     }
 
     public static int getPort() {

@@ -3,15 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.helfenkannjeder.common</groupId>
-    <artifactId>identity-provider</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
-    <packaging>jar</packaging>
-
-    <name>identity-provider</name>
-    <description>identity provider for helfen kann jeder</description>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,6 +10,10 @@
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
+
+    <artifactId>identity-provider</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -43,17 +38,17 @@
             <artifactId>google-collections</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
 
         <dependency>
             <groupId>de.helfenkannjeder.common</groupId>
             <artifactId>oauth-provider-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- janino is required for logback -->

@@ -1,12 +1,9 @@
 package de.helfenkannjeder.oauth.provider.api;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
-import de.helfenkannjeder.oauth.provider.api.util.TestServer;
+import de.helfenkannjeder.testutils.FeignApiBuilder;
+import de.helfenkannjeder.testutils.TestServer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,15 +18,8 @@ public class OAuthProviderUserManagementApiTest {
 
 	@Before
 	public void setUp() throws Exception {
-		TestServer.startHttpServer();
-		int port = TestServer.getPort();
-
-		ObjectMapper mapper = new ObjectMapper()
-				.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-				.configure(SerializationFeature.INDENT_OUTPUT, true)
-				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-		this.api = OAuthProviderUserManagementApi.create("http://localhost:" + port, mapper);
+		int port =  TestServer.startHttpServer();
+		this.api = FeignApiBuilder.create(OAuthProviderUserManagementApi.class, "http://localhost:" + port);
 	}
 
 	@Test
