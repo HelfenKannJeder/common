@@ -36,7 +36,7 @@ public class IdentitySteps {
 
     @Given("^any valid identity$")
     public void any_valid_identity() throws Throwable {
-        identityDto = IdentityDtoObjectMother.anyValidUserDto();
+        identityDto = IdentityDtoObjectMother.anyValidIdentityDto();
     }
 
     @Given("^any invalid identity$")

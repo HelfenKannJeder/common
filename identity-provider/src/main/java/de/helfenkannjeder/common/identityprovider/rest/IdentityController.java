@@ -35,12 +35,12 @@ public class IdentityController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
-	public IdentityDto getUser(@NotNull @PathVariable("id") Long id) {
+	public IdentityDto getIdentity(@NotNull @PathVariable("id") Long id) {
 		return IdentityDto.createFullDto(identityService.findById(id));
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public IdentityDto updateUser(@NotNull @PathVariable("id") Long id, @RequestBody @Valid IdentityDto identityDto) {
+	public IdentityDto updateIdentity(@NotNull @PathVariable("id") Long id, @RequestBody @Valid IdentityDto identityDto) {
 		identityDto.setId(id);
 		Identity identity = IdentityDto.createIdentity(identityDto);
 		identity = identityService.updateIdentity(identity);
@@ -49,7 +49,7 @@ public class IdentityController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUser(@NotNull @PathVariable("id") Long id) {
+	public void deleteIdentity(@NotNull @PathVariable("id") Long id) {
 		identityService.deleteIdentityById(id);
 	}
 }

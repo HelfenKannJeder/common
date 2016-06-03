@@ -4,7 +4,7 @@ import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 
 public class IdentityDtoObjectMother {
 
-    public static IdentityDto anyValidUserDto() {
+    public static IdentityDto anyValidIdentityDto() {
         return new IdentityDto()
                 .setId(42L)
                 .setGivenName("Max")
