@@ -14,7 +14,7 @@ public class RequestLogger {
 
     private final ObjectMapper objectMapper = ObjectMapperFactory.objectMapperForRestEndpoint();
 
-    @Around("execution(public * de.helfenkannjeder.come2help.server.rest.*Controller.*(..))")
+    @Around("execution(public * de.helfenkannjeder.common.identityprovider.rest.*Controller.*(..))")
     public Object logRequest(ProceedingJoinPoint joinPoint) throws Throwable {
         CodeSignature signature = (CodeSignature) joinPoint.getSignature();
 
