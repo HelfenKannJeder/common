@@ -1,5 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.rest.exceptionhandling;
 
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import de.helfenkannjeder.common.identityprovider.service.exception.DataError;
 import org.springframework.validation.FieldError;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -28,6 +29,14 @@ public class ClientError {
         ClientError clientError = new ClientError();
         clientError.code = dataError.code;
         clientError.value = dataError.value;
+
+        return clientError;
+    }
+
+    public static ClientError fromUnrecognizedPropertyException(UnrecognizedPropertyException exception) {
+        ClientError clientError = new ClientError();
+        clientError.code = "field.unrecognized";
+        clientError.path = exception.getPropertyName();
 
         return clientError;
     }

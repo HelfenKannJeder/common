@@ -30,7 +30,7 @@ public class IdentityDtoTest {
 	@Test
 	public void testIdentityDtoToIdentity() {
 		IdentityDto dto = IdentityDtoObjectMother.anyValidUserDto();
-		Identity identity = IdentityDto.createUser(dto);
+		Identity identity = IdentityDto.createIdentity(dto);
 
 		assertThat(identity, IdentityMatcher.matchesIdentity()
 				.withId(dto.getId())

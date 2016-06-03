@@ -22,8 +22,8 @@ public class IdentityController {
 	private IdentityService identityService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public IdentityDto createUser(@Valid @RequestBody IdentityDto identityDto) {
-		Identity identity = IdentityDto.createUser(identityDto);
+	public IdentityDto createIdentity(@Valid @RequestBody IdentityDto identityDto) {
+		Identity identity = IdentityDto.createIdentity(identityDto);
 
 		if (identity.getAuthProvider() != AuthenticationProvider.HELFENKANNJEDER && (identity.getExternalId() == null || identity.getExternalId().isEmpty())) {
 			throw new ConstraintViolationException("not.empty", new HashSet<>());
@@ -35,13 +35,12 @@ public class IdentityController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public IdentityDto getUser(@NotNull @PathVariable("id") Long id) {
-		Identity identity = identityService.findById(id);
-		return IdentityDto.createFullDto(identity);
+		return IdentityDto.createFullDto(identityService.findById(id));
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public IdentityDto updateUser(@NotNull @PathVariable("id") Long id, @Valid IdentityDto identityDto) {
-		Identity identity = IdentityDto.createUser(identityDto);
+		Identity identity = IdentityDto.createIdentity(identityDto);
 		identity = identityService.updateIdentity(id, identity);
 		return IdentityDto.createFullDto(identity);
 	}

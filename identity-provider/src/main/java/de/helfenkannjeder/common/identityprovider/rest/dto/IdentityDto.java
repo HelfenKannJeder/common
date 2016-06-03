@@ -49,7 +49,7 @@ public class IdentityDto {
 		return new IdentityDto(identity.getId(), identity.getAuthProvider().getApiName(), identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
 	}
 
-	public static Identity createUser(IdentityDto user) {
+	public static Identity createIdentity(IdentityDto user) {
 		return new Identity(user.getId(), AuthenticationProvider.getByApiName(user.getAuthProvider()), user.getExternalId(), user.email, user.givenName, user.surname, user.phone);
 	}
 
