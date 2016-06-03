@@ -2,6 +2,7 @@ package de.helfenkannjeder.common.identityprovider.matchers;
 
 import de.helfenkannjeder.common.identityprovider.domain.DomainAuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
+import de.helfenkannjeder.common.identityprovider.domain.IdentityStatus;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -25,6 +26,9 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 
 	private Matcher<? super String> phone = Matchers.anything();
 
+	private Matcher<? super IdentityStatus> status = Matchers.anything();
+
+	private Matcher<? super String> confirmationCode = Matchers.anything();
 
 	public static IdentityMatcher matchesIdentity() {
 		return new IdentityMatcher();
@@ -37,7 +41,9 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 				.withSurname(identity.getSurname())
 				.withAuthProvider(identity.getAuthProvider())
 				.withExternalId(identity.getExternalId())
-				.withPhone(identity.getPhone());
+				.withPhone(identity.getPhone())
+				.withStatus(identity.getStatus())
+				.withConfirmationCode(identity.getConfirmationCode());
 	}
 
 	public IdentityMatcher withId(Long id) {
@@ -75,6 +81,21 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 		return this;
 	}
 
+	public IdentityMatcher withStatus(IdentityStatus status) {
+		this.status = equalTo(status);
+		return this;
+	}
+
+	public IdentityMatcher withConfirmationCode(String confirmationCode) {
+		this.confirmationCode = equalTo(confirmationCode);
+		return this;
+	}
+
+	public IdentityMatcher withAnyConfirmationCode() {
+		this.confirmationCode = Matchers.notNullValue();
+		return this;
+	}
+
 	@Override
 	protected boolean matchesSafely(Identity item, final Description mismatchDescription) {
 		boolean matches = true;
@@ -104,17 +125,27 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 			mismatchDescription.appendText(" with phone=").appendValue(item.getPhone());
 			matches = false;
 		}
+		if (!status.matches(item.getStatus())) {
+			mismatchDescription.appendText(" with status=").appendValue(item.getStatus());
+			matches = false;
+		}
+		if (!confirmationCode.matches(item.getConfirmationCode())) {
+			mismatchDescription.appendText(" with confirmationCode=").appendValue(item.getConfirmationCode());
+			matches = false;
+		}
 		return matches;
 	}
 
 	@Override
 	public void describeTo(Description description) {
 		description
-				.appendText(", with id=").appendDescriptionOf(id)
+				.appendText("with id=").appendDescriptionOf(id)
 				.appendText(", with email=").appendDescriptionOf(email)
 				.appendText(", with givenName=").appendDescriptionOf(givenName)
 				.appendText(", with authProvider=").appendDescriptionOf(authProvider)
 				.appendText(", with externalId=").appendDescriptionOf(externalId)
-				.appendText(", with phone=").appendDescriptionOf(phone);
+				.appendText(", with phone=").appendDescriptionOf(phone)
+				.appendText(", with status=").appendDescriptionOf(status)
+				.appendText(", with confirmationCode=").appendDescriptionOf(confirmationCode);
 	}
 }

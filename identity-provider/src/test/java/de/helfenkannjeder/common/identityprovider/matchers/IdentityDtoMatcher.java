@@ -8,6 +8,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 
@@ -25,6 +26,10 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 
 	private Matcher<? super String> phone = Matchers.anything();
 
+	private Matcher<? super String> status = Matchers.anything();
+
+	private Matcher<? super String> confirmationCode = Matchers.anything();
+
 	public static IdentityDtoMatcher matchesIdentityDto() {
 		return new IdentityDtoMatcher();
 	}
@@ -36,7 +41,9 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 				.withSurname(identityDto.getSurname())
 				.withAuthProvider(identityDto.getAuthProvider())
 				.withExternalId(identityDto.getExternalId())
-				.withPhone(identityDto.getPhone());
+				.withPhone(identityDto.getPhone())
+				.withStatus(identityDto.getStatus())
+				.withConfirmationCode(identityDto.getConfirmationCode());
 	}
 
 	public IdentityDtoMatcher withId(Long id) {
@@ -74,6 +81,21 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 		return this;
 	}
 
+	public IdentityDtoMatcher withStatus(String status) {
+		this.status = equalTo(status);
+		return this;
+	}
+
+	public IdentityDtoMatcher withConfirmationCode(String confirmationCode) {
+		this.confirmationCode = equalTo(confirmationCode);
+		return this;
+	}
+
+	public IdentityDtoMatcher withAnyConfirmationCode() {
+		this.confirmationCode = notNullValue();
+		return this;
+	}
+
 	@Override
 	protected boolean matchesSafely(IdentityDto item, final Description mismatchDescription) {
 		boolean matches = true;
@@ -107,6 +129,14 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 			mismatchDescription.appendText(" with phone=").appendValue(item.getPhone());
 			matches = false;
 		}
+		if (!status.matches(item.getStatus())) {
+			mismatchDescription.appendText(" with status=").appendValue(item.getStatus());
+			matches = false;
+		}
+		if (!confirmationCode.matches(item.getConfirmationCode())) {
+			mismatchDescription.appendText(" with confirmationCode=").appendValue(item.getConfirmationCode());
+			matches = false;
+		}
 		return matches;
 	}
 
@@ -119,6 +149,8 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 				.appendText(", with surname=").appendDescriptionOf(surname)
 				.appendText(", with authProvider=").appendDescriptionOf(authProvider)
 				.appendText(", with externalId=").appendDescriptionOf(externalId)
-				.appendText(", with phone=").appendDescriptionOf(phone);
+				.appendText(", with phone=").appendDescriptionOf(phone)
+				.appendText(", with status=").appendDescriptionOf(status)
+				.appendText(", with confirmationCode=").appendDescriptionOf(confirmationCode);
 	}
 }

@@ -21,13 +21,17 @@ public class IdentityTest {
         String updatedPhone = "+49344";
         DomainAuthenticationProvider updatedAuthProvider = DomainAuthenticationProvider.GOOGLE;
         String updatedExternalId = "updatedExternalId";
+        IdentityStatus updatedStatus = IdentityStatus.INACTIVE;
+        String updatedConfirmaitonCode = "updatedConfirmaitonCode";
         Identity identity2 = IdentityObjectMother.anyValidIdentity()
                 .setEmail(email)
                 .setGivenName(updatedGivenName)
                 .setSurname(updatedSurname)
                 .setPhone(updatedPhone)
                 .setAuthProvider(updatedAuthProvider)
-                .setExternalId(updatedExternalId);
+                .setExternalId(updatedExternalId)
+                .setStatus(updatedStatus)
+                .setConfirmationCode(updatedConfirmaitonCode);
 
         assertNotEquals(identity1, identity2);
         identity1.update(identity2);

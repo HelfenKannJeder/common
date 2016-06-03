@@ -23,6 +23,9 @@ public class Identity extends AbstractVersionedAuditable {
 	private String surname;
 	private String phone;
 
+	private IdentityStatus status = IdentityStatus.ACTIVE;
+	private String confirmationCode;
+
 	public Identity() {
 	}
 
@@ -43,6 +46,8 @@ public class Identity extends AbstractVersionedAuditable {
 		this.authProvider = identity.getAuthProvider();
 		this.externalId = identity.getExternalId();
 		this.phone = identity.getPhone();
+		this.status = identity.getStatus();
+		this.confirmationCode = identity.getConfirmationCode();
 	}
 
 	public Long getId() {
@@ -108,16 +113,36 @@ public class Identity extends AbstractVersionedAuditable {
 		return this;
 	}
 
+	public IdentityStatus getStatus() {
+		return status;
+	}
+
+	public Identity setStatus(IdentityStatus status) {
+		this.status = status;
+		return this;
+	}
+
+	public String getConfirmationCode() {
+		return confirmationCode;
+	}
+
+	public Identity setConfirmationCode(String confirmationCode) {
+		this.confirmationCode = confirmationCode;
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		return "Identity{" +
 				"id=" + id +
-				", authProvider='" + authProvider + '\'' +
+				", authProvider=" + authProvider +
 				", externalId='" + externalId + '\'' +
 				", email='" + email + '\'' +
 				", givenName='" + givenName + '\'' +
 				", surname='" + surname + '\'' +
 				", phone='" + phone + '\'' +
+				", status=" + status +
+				", confirmationCode='" + confirmationCode + '\'' +
 				'}';
 	}
 }

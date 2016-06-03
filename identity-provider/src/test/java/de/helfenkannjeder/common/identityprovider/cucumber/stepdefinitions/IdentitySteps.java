@@ -9,7 +9,9 @@ import de.helfenkannjeder.common.identityprovider.cucumber.IdentityProviderApiTe
 import de.helfenkannjeder.common.identityprovider.cucumber.configuration.TestApplicationConfiguration;
 import de.helfenkannjeder.common.identityprovider.cucumber.transformers.HTTPStatusTransformer;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjectMother;
+import de.helfenkannjeder.common.identityprovider.domain.IdentityStatus;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
+import de.helfenkannjeder.identity.provider.api.dto.AuthenticationProvider;
 import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.hamcrest.CoreMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,13 @@ public class IdentitySteps {
         the_identity_is_created();
     }
 
+    @Given("^an new helfenkannjeder identity")
+    public void an_new_helfenkannjeder_identity() throws Throwable {
+        any_valid_identity();
+        identityDto.setAuthProvider(AuthenticationProvider.HELFENKANNJEDER);
+        identityDto.setExternalId(null);
+    }
+
     @Given("^the user changes a property of the identity")
     public void the_user_changes_a_property_of_the_identity() throws Throwable {
         identityDto = createIdentityResponseEntity.getBody();
@@ -111,5 +120,12 @@ public class IdentitySteps {
     public void theUserModifiesTheIdentityWithInvalidData() throws Throwable {
         identityDto = createIdentityResponseEntity.getBody();
         identityDto.setEmail("invalidEmail");
+    }
+
+    @Then("^the created identity is inactive$")
+    public void the_created_identity_is_inactive() throws Throwable {
+        assertThat(createIdentityResponseEntity.getBody(), CoreMatchers.is(IdentityDtoMatcher.matchesIdentityDto()
+                .withStatus(IdentityStatus.INACTIVE.getApiName())
+                .withAnyConfirmationCode()));
     }
 }

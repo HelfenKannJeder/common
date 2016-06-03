@@ -3,16 +3,18 @@ package de.helfenkannjeder.common.identityprovider.rest.dto;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjectMother;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityObjectMother;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
+import de.helfenkannjeder.common.identityprovider.domain.IdentityStatus;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityMatcher;
 import de.helfenkannjeder.common.identityprovider.rest.mapping.AuthenticationProviderMapper;
 import de.helfenkannjeder.common.identityprovider.rest.mapping.IdentityDtoMapper;
+import de.helfenkannjeder.identity.provider.api.dto.AuthenticationProvider;
 import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class IdentityDtoTest {
+public class IdentityDtoMapperTest {
 
 	@Test
 	public void testIdentityToIdentityDto() {
@@ -42,5 +44,21 @@ public class IdentityDtoTest {
 				.withPhone(dto.getPhone())
 				.withAuthProvider(AuthenticationProviderMapper.mapToDomain(dto.getAuthProvider()))
 				.withExternalId(dto.getExternalId()));
+	}
+
+	@Test
+	public void dtoToDomainShouldNotMapStatus() throws Exception {
+		IdentityDto dto = new IdentityDto(null,AuthenticationProvider.FACEBOOK,null,null,null,null,null, IdentityStatus.INACTIVE.getApiName(),null);
+		Identity identity = IdentityDtoMapper.createIdentity(dto);
+
+		assertThat(identity, IdentityMatcher.matchesIdentity().withStatus(IdentityStatus.ACTIVE));
+	}
+
+	@Test
+	public void dtoToDomainShouldNotMapConfirmationCode() throws Exception {
+		IdentityDto dto = new IdentityDto(null, AuthenticationProvider.FACEBOOK,null,null,null,null,null,null,"confCode");
+		Identity identity = IdentityDtoMapper.createIdentity(dto);
+
+		assertThat(identity, IdentityMatcher.matchesIdentity().withConfirmationCode(null));
 	}
 }

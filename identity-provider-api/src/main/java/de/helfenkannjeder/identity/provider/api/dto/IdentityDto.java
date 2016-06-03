@@ -24,14 +24,16 @@ public class IdentityDto {
 	@NotEmpty(message = "not.empty")
 	private String surname;
 
-
 	private String phone;
 
+	private String status;
+
+	private String confirmationCode;
 
 	public IdentityDto() {
 	}
 
-	public IdentityDto(Long id, AuthenticationProvider authProvider, String externalId, String email, String givenName, String surname, String phone) {
+	public IdentityDto(Long id, AuthenticationProvider authProvider, String externalId, String email, String givenName, String surname, String phone, String status, String confirmationCode) {
 		this.id = id;
 		this.authProvider = authProvider;
 		this.externalId = externalId;
@@ -39,6 +41,8 @@ public class IdentityDto {
 		this.givenName = givenName;
 		this.surname = surname;
 		this.phone = phone;
+		this.status = status;
+		this.confirmationCode = confirmationCode;
 	}
 
 
@@ -103,5 +107,13 @@ public class IdentityDto {
 	public IdentityDto setPhone(String phone) {
 		this.phone = phone;
 		return this;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public String getConfirmationCode() {
+		return confirmationCode;
 	}
 }

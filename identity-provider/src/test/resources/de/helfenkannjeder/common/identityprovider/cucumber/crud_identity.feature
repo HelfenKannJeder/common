@@ -15,6 +15,11 @@ Feature: Crud operations for identities
     When the identity id is re-used
     Then the returned status code is HTTP 409 Conflict
 
+  Scenario: Create a identity with helfenkannjeder authProvider
+    Given an new helfenkannjeder identity
+    When the identity is created
+    Then the created identity is inactive
+
   Scenario: Update an existing identity
     Given an existing identity
     And the user changes a property of the identity

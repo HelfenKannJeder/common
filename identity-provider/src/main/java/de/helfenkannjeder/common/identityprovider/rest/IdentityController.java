@@ -1,5 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.rest;
 
+import com.google.common.base.Strings;
 import de.helfenkannjeder.common.identityprovider.domain.DomainAuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.rest.mapping.IdentityDtoMapper;
@@ -27,7 +28,7 @@ public class IdentityController {
 	public IdentityDto createIdentity(@Valid @RequestBody IdentityDto identityDto) {
 		Identity identity = IdentityDtoMapper.createIdentity(identityDto);
 
-		if (identity.getAuthProvider() != DomainAuthenticationProvider.HELFENKANNJEDER && (identity.getExternalId() == null || identity.getExternalId().isEmpty())) {
+		if (identity.getAuthProvider() != DomainAuthenticationProvider.HELFENKANNJEDER && (Strings.isNullOrEmpty(identity.getExternalId()))) {
 			throw new ConstraintViolationException("not.empty", new HashSet<>());
 		}
 
