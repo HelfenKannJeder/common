@@ -52,9 +52,13 @@ public class IdentityService {
 			return identity;
 		}
 
-		Identity tmp = identityRepository.findByEmail(identity.getEmail());
-		if (tmp != null) {
-			throw new DuplicateResourceException(format("An identity with email %s already exists", identity.getEmail()));
+		Identity alreadyInDb = identityRepository.findById(identity.getId());
+		if (alreadyInDb != null) {
+			throw new DuplicateResourceException(format("An identity with id %s already exists", identity.getId()));
+		}
+		alreadyInDb = identityRepository.findByAuthProviderAndExternalId(identity.getAuthProvider(), identity.getExternalId());
+		if (alreadyInDb != null) {
+			throw new DuplicateResourceException(format("An identity with authenticationProvider %s and externalId %s already exists", identity.getAuthProvider(), identity.getExternalId()));
 		}
 
 		if (identity.getAuthProvider() == AuthenticationProvider.HELFENKANNJEDER) {

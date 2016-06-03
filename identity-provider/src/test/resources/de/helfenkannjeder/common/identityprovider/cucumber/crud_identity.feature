@@ -13,7 +13,7 @@ Feature: Crud operations for identities
   Scenario: Create a identity with existing id
     Given an existing identity
     When the identity id is re-used
-    Then the returned status code is HTTP 400 Bad Request
+    Then the returned status code is HTTP 409 Conflict
 
   Scenario: Update an existing identity
     Given an existing identity
