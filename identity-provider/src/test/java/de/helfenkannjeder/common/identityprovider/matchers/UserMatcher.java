@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.matchers;
 
-import de.helfenkannjeder.common.identityprovider.domain.User;
+import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -8,7 +8,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserMatcher extends TypeSafeDiagnosingMatcher<User> {
+public class UserMatcher extends TypeSafeDiagnosingMatcher<Identitiy> {
 
 	private Matcher<? super String> id = Matchers.anything();
 
@@ -29,11 +29,11 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<User> {
 		return new UserMatcher();
 	}
 
-	public static UserMatcher matchesUser(User user) {
-		return new UserMatcher().withEmail(user.getEmail())
-				.withGivenName(user.getGivenName())
-				.withSurname(user.getSurname())
-				.withPhone(user.getPhone());
+	public static UserMatcher matchesUser(Identitiy identitiy) {
+		return new UserMatcher().withEmail(identitiy.getEmail())
+				.withGivenName(identitiy.getGivenName())
+				.withSurname(identitiy.getSurname())
+				.withPhone(identitiy.getPhone());
 	}
 
 	public UserMatcher withEmail(String email) {
@@ -58,9 +58,9 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<User> {
 	}
 
 	@Override
-	protected boolean matchesSafely(User item, final Description mismatchDescription) {
+	protected boolean matchesSafely(Identitiy item, final Description mismatchDescription) {
 		boolean matches = true;
-		mismatchDescription.appendText("was UserDto");
+		mismatchDescription.appendText("was IdentityDto");
 
 		if (!email.matches(item.getEmail())) {
 			mismatchDescription.appendText(" with email=").appendValue(item.getEmail());

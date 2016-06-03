@@ -1,3 +1,3 @@
 SET FOREIGN_KEY_CHECKS=0;
-delete from user;
+delete from identitiy;
 SET FOREIGN_KEY_CHECKS=1;

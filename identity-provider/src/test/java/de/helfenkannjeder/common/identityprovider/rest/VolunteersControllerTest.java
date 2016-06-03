@@ -1,6 +1,6 @@
 //package de.helfenkannjeder.common.identityprovider.rest;
 //
-//import de.helfenkannjeder.common.identityprovider.rest.dto.UserDto;
+//import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 //import de.helfenkannjeder.come2help.server.security.Authorities;
 //import org.codehaus.jackson.map.ObjectMapper;
 //import org.hamcrest.CoreMatchers;
@@ -52,7 +52,7 @@
 //
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        VolunteerDto volunteerDto = new VolunteerDto(null,
-//                new UserDto(
+//                new IdentityDto(
 //                        "testMail@helfenkannjeder.de",
 //                        "GivenName",
 //                        "Surname",
@@ -104,7 +104,7 @@
 //
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        VolunteerDto volunteerDto = new VolunteerDto(1L,
-//                new UserDto(
+//                new IdentityDto(
 //                        "testMail@helfenkannjeder.de",
 //                        "New given name",
 //                        "new surname",
@@ -136,7 +136,7 @@
 //
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        VolunteerDto volunteerDto = new VolunteerDto(1L,
-//                new UserDto(
+//                new IdentityDto(
 //                        "testMail@helfenkannjeder.de",
 //                        "New given name",
 //                        "new surname",

@@ -1,10 +1,12 @@
 package de.helfenkannjeder.common.identityprovider.rest.dto;
 
-import de.helfenkannjeder.common.identityprovider.domain.User;
+import de.helfenkannjeder.common.identityprovider.domain.Identitiy;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserDto {
+public class IdentityDto {
+
+	private Long id;
 
 	@NotEmpty(message = "not.empty")
 	@Email(message = "not.invalid")
@@ -20,29 +22,29 @@ public class UserDto {
 	private String phone;
 
 
-	public UserDto() {
+	public IdentityDto() {
 	}
 
-	public UserDto(String email, String givenName, String surname, String phone) {
+	public IdentityDto(String email, String givenName, String surname, String phone) {
 		this.email = email;
 		this.givenName = givenName;
 		this.surname = surname;
 		this.phone = phone;
 	}
 
-	public static UserDto createFullDto(User user) {
-		return new UserDto(user.getEmail(), user.getGivenName(), user.getSurname(), user.getPhone());
+	public static IdentityDto createFullDto(Identitiy identitiy) {
+		return new IdentityDto(identitiy.getEmail(), identitiy.getGivenName(), identitiy.getSurname(), identitiy.getPhone());
 	}
 
-	static User createUser(UserDto user) {
-		return new User(user.email, user.givenName, user.surname, user.phone);
+	public static Identitiy createUser(IdentityDto user) {
+		return new Identitiy(user.email, user.givenName, user.surname, user.phone);
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public UserDto setEmail(String email) {
+	public IdentityDto setEmail(String email) {
 		this.email = email;
 		return this;
 	}
@@ -51,7 +53,7 @@ public class UserDto {
 		return givenName;
 	}
 
-	public UserDto setGivenName(String givenName) {
+	public IdentityDto setGivenName(String givenName) {
 		this.givenName = givenName;
 		return this;
 	}
@@ -60,7 +62,7 @@ public class UserDto {
 		return surname;
 	}
 
-	public UserDto setSurname(String surname) {
+	public IdentityDto setSurname(String surname) {
 		this.surname = surname;
 		return this;
 	}
@@ -70,7 +72,7 @@ public class UserDto {
 		return phone;
 	}
 
-	public UserDto setPhone(String phone) {
+	public IdentityDto setPhone(String phone) {
 		this.phone = phone;
 		return this;
 	}
