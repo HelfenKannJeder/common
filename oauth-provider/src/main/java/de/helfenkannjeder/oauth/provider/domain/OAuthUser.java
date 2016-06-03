@@ -12,7 +12,7 @@ public class OAuthUser {
 
     @Id
     @GeneratedValue
-    private String id;
+    private Long id;
     private String username;
     private String password;
 
@@ -24,11 +24,11 @@ public class OAuthUser {
         this.password = password;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

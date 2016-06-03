@@ -74,7 +74,7 @@ public class UserManagementControllerTest {
         UserResponseDto userResponseDto = objectMapper.readValue(result.getResponse().getContentAsString(), UserResponseDto.class);
         String userId = userResponseDto.getId();
         assertNotNull(userId);
-        OAuthUser oAuthUser = oAuthUserRepository.findOne(userId);
+        OAuthUser oAuthUser = oAuthUserRepository.findOne(Long.valueOf(userId));
         assertEquals(username, oAuthUser.getUsername());
         assertTrue(passwordEncoder.matches(password, oAuthUser.getPassword()));
     }

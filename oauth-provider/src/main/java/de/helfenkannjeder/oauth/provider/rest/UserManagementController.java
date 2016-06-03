@@ -36,7 +36,7 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
         // TODO: Test if user already exists
         String password = passwordEncoder.encode(userRequestDto.getPassword());
         OAuthUser user = oAuthUserRepository.save(new OAuthUser(userRequestDto.getUsername(), password));
-        return new UserResponseDto(user.getId());
+        return new UserResponseDto(String.valueOf(user.getId()));
     }
 
     @Override

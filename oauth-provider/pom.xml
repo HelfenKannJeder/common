@@ -10,7 +10,6 @@
         <java.version>1.8</java.version>
         <common.version>0.0.1-SNAPSHOT</common.version>
         <junit.version>4.12</junit.version>
-        <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
         <h2.version>1.4.182</h2.version>
     </properties>
 
@@ -43,7 +42,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
