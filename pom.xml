@@ -10,11 +10,12 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
     </properties>
 
     <modules>
-        <module>oauth-provider</module>
         <module>oauth-provider-api</module>
+        <module>oauth-provider</module>
     </modules>
 </project>
