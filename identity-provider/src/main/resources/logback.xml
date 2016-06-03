@@ -24,10 +24,10 @@
 
     <root level="INFO">
         <appender-ref ref="servicelog"/>
-        <if condition='isDefined("logToConsole")'>
-            <then>
-                <appender-ref ref="console"/>
-            </then>
-        </if>
+        <!--<if condition='isDefined("logToConsole")'>-->
+        <!--<then>-->
+        <appender-ref ref="console"/>
+        <!--</then>-->
+        <!--</if>-->
     </root>
 </configuration>
