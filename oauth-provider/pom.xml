@@ -10,6 +10,8 @@
         <java.version>1.8</java.version>
         <common.version>0.0.1-SNAPSHOT</common.version>
         <junit.version>4.12</junit.version>
+        <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
+        <h2.version>1.4.182</h2.version>
     </properties>
 
     <parent>
@@ -33,6 +35,21 @@
             <groupId>de.helfenkannjeder.common</groupId>
             <artifactId>oauth-provider-api</artifactId>
             <version>${common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -3,10 +3,12 @@ package de.helfenkannjeder.oauth.provider.rest;
 import de.helfenkannjeder.oauth.provider.api.OAuthProviderUserManagementApi;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import de.helfenkannjeder.oauth.provider.domain.OAuthUser;
+import de.helfenkannjeder.oauth.provider.domain.repository.OAuthUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -14,7 +16,14 @@ import java.security.Principal;
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 @RestController
+@RequestMapping("/admin")
 public class UserManagementController implements OAuthProviderUserManagementApi {
+
+    @Autowired
+    private OAuthUserRepository oAuthUserRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/userInformation")
     public Principal currentUser(Principal user) {
@@ -23,18 +32,23 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
 
     @Override
     @RequestMapping(value = CREATE, method = RequestMethod.POST)
-    public UserResponseDto create(UserRequestDto userRequestDto) {
-        return new UserResponseDto(null);
+    public UserResponseDto create(@RequestBody UserRequestDto userRequestDto) {
+        // TODO: Test if user already exists
+        String password = passwordEncoder.encode(userRequestDto.getPassword());
+        OAuthUser user = oAuthUserRepository.save(new OAuthUser(userRequestDto.getUsername(), password));
+        return new UserResponseDto(user.getId());
     }
 
     @Override
     @RequestMapping(value = UPDATE, method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestParam("id") String id, UserRequestDto userRequestDto) {
 
     }
 
     @Override
     @RequestMapping(value = DELETE, method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@RequestParam("id") String id) {
 
     }
