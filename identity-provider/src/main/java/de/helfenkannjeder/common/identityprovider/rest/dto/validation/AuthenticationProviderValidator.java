@@ -1,8 +1,8 @@
 package de.helfenkannjeder.common.identityprovider.rest.dto.validation;
 
-import javax.validation.ConstraintValidatorContext;
-
 import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
+
+import javax.validation.ConstraintValidatorContext;
 
 public class AuthenticationProviderValidator extends NullSaveBaseValidator<ValidAuthenticationProvider, String> {
 
@@ -13,6 +13,6 @@ public class AuthenticationProviderValidator extends NullSaveBaseValidator<Valid
 
 	@Override
 	protected boolean isValidNullSave(String value, ConstraintValidatorContext context) {
-		return AuthenticationProvider.API_NAMES.contains(value);
+		return AuthenticationProvider.API_NAMES.contains(value.toUpperCase());
 	}
 }

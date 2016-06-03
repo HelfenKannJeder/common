@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.domain.repository.IdentityRepository;
-import de.helfenkannjeder.common.identityprovider.service.exception.ConcurrentDeletedException;
 import de.helfenkannjeder.common.identityprovider.service.exception.DuplicateResourceException;
 import de.helfenkannjeder.common.identityprovider.service.exception.InvalidDataException;
 import de.helfenkannjeder.common.identityprovider.service.exception.ResourceNotFoundException;
@@ -74,7 +73,7 @@ public class IdentityService {
 		return createdUser.getId();
 	}
 
-	public Identity updateIdentity(Long id, Identity identity) {
+	public Identity updateIdentity(Identity identity) {
 		if (identity == null) {
 			return null;
 		}
@@ -83,9 +82,9 @@ public class IdentityService {
 			throw InvalidDataException.forSingleError("id.not.null", null);
 		}
 
-		Identity storedEntity = identityRepository.findOne(id);
+		Identity storedEntity = identityRepository.findOne(identity.getId());
 		if (storedEntity == null) {
-			throw new ConcurrentDeletedException(identity.getId());
+			throw new ResourceNotFoundException(identity.getId());
 		}
 		storedEntity.update(identity);
 

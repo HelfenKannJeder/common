@@ -39,9 +39,10 @@ public class IdentityController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
-	public IdentityDto updateUser(@NotNull @PathVariable("id") Long id, @Valid IdentityDto identityDto) {
+	public IdentityDto updateUser(@NotNull @PathVariable("id") Long id, @RequestBody @Valid IdentityDto identityDto) {
+		identityDto.setId(id);
 		Identity identity = IdentityDto.createIdentity(identityDto);
-		identity = identityService.updateIdentity(id, identity);
+		identity = identityService.updateIdentity(identity);
 		return IdentityDto.createFullDto(identity);
 	}
 

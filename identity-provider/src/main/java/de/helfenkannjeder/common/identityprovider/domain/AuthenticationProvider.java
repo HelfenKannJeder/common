@@ -9,7 +9,7 @@ public enum AuthenticationProvider {
 	GOOGLE("google"),
 	HELFENKANNJEDER("helfenkannjeder");
 
-	public static final Set<String> API_NAMES = Arrays.stream(values()).map(provider -> provider.apiName).collect(Collectors.toSet());
+	public static final Set<String> API_NAMES = Arrays.stream(values()).map(provider -> provider.apiName.toUpperCase()).collect(Collectors.toSet());
 
 	private final String apiName;
 
