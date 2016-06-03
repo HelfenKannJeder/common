@@ -38,7 +38,8 @@ public class IdentityController {
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public IdentityDto getUser(@NotNull @PathVariable("id") Long id) {
-		return IdentityDto.createFullDto(identityService.findById(id));
+		Identity identity = identityService.findById(id);
+		return IdentityDto.createFullDto(identity);
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)

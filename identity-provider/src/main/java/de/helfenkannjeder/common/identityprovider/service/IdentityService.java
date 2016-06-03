@@ -7,6 +7,7 @@ import de.helfenkannjeder.common.identityprovider.domain.repository.IdentityRepo
 import de.helfenkannjeder.common.identityprovider.service.exception.ConcurrentDeletedException;
 import de.helfenkannjeder.common.identityprovider.service.exception.DuplicateResourceException;
 import de.helfenkannjeder.common.identityprovider.service.exception.InvalidDataException;
+import de.helfenkannjeder.common.identityprovider.service.exception.ResourceNotFoundException;
 import de.helfenkannjeder.oauth.provider.api.UserApi;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
@@ -38,7 +39,13 @@ public class IdentityService {
 	}
 
 	public Identity findById(Long id) {
-		return identityRepository.findOne(id);
+		Identity identity = identityRepository.findOne(id);
+
+		if (identity == null) {
+			throw new ResourceNotFoundException(id);
+		}
+
+		return identity;
 	}
 
 	public Identity createIdentity(Identity identity) {
