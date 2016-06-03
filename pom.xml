@@ -12,5 +12,6 @@
     <modules>
         <module>oauth-provider</module>
         <module>identity-provider</module>
+        <module>identity-provider-api</module>
     </modules>
 </project>
