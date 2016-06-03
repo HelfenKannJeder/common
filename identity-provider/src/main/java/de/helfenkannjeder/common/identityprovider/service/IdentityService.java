@@ -8,7 +8,7 @@ import de.helfenkannjeder.common.identityprovider.service.exception.ConcurrentDe
 import de.helfenkannjeder.common.identityprovider.service.exception.DuplicateResourceException;
 import de.helfenkannjeder.common.identityprovider.service.exception.InvalidDataException;
 import de.helfenkannjeder.common.identityprovider.service.exception.ResourceNotFoundException;
-import de.helfenkannjeder.oauth.provider.api.UserApi;
+import de.helfenkannjeder.oauth.provider.api.OAuthProviderUserManagementApi;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ import static java.lang.String.format;
 public class IdentityService {
 
 	private final IdentityRepository identityRepository;
-	private final UserApi helfenKannJederOAuthProviderApi;
+	private final OAuthProviderUserManagementApi helfenKannJederOAuthProviderApi;
 
 	@Autowired
-	public IdentityService(IdentityRepository identityRepository, UserApi helfenKannJederOAuthProviderApi) {
+	public IdentityService(IdentityRepository identityRepository, OAuthProviderUserManagementApi helfenKannJederOAuthProviderApi) {
 		this.identityRepository = identityRepository;
 		this.helfenKannJederOAuthProviderApi = helfenKannJederOAuthProviderApi;
 	}

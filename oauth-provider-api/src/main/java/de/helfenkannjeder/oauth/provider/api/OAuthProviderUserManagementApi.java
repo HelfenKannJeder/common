@@ -12,21 +12,25 @@ import feign.jackson.JacksonEncoder;
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
-public interface UserApi {
+public interface OAuthProviderUserManagementApi {
 
-	static UserApi createUserApi(String apiEndpoint, ObjectMapper mapper) {
+	static OAuthProviderUserManagementApi create(String apiEndpoint, ObjectMapper mapper) {
 		return Feign.builder()
 				.encoder(new JacksonEncoder(mapper))
 				.decoder(new JacksonDecoder(mapper))
-				.target(UserApi.class, apiEndpoint);
+				.target(OAuthProviderUserManagementApi.class, apiEndpoint);
 	}
 
-	@RequestLine("POST /user/create")
+	String CREATE = "/users";
+	String UPDATE = "/users/{id}";
+	String DELETE = "/users/{id}";
+
+	@RequestLine("POST " + CREATE)
 	UserResponseDto create(UserRequestDto userRequestDto);
 
-	@RequestLine("PUT /user/{id}")
+	@RequestLine("PUT " + UPDATE)
 	void update(@Param("id") String id, UserRequestDto userRequestDto);
 
-	@RequestLine("DELETE /user/{id}")
+	@RequestLine("DELETE " + DELETE)
 	void delete(@Param("id") String id);
 }
