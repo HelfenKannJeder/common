@@ -8,7 +8,7 @@ import feign.RequestLine;
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
-public interface UserApi {
+public interface OAuthProviderUserManagementApi {
 
     @RequestLine("POST /user/create")
     UserResponseDto create(UserRequestDto userRequestDto);

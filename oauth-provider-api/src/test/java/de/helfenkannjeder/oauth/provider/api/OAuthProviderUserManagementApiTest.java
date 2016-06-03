@@ -18,9 +18,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
-public class UserApiTest {
+public class OAuthProviderUserManagementApiTest {
 
-    private UserApi userApi;
+    private OAuthProviderUserManagementApi userApi;
 
     @Before
     public void setUp() throws Exception {
@@ -35,7 +35,7 @@ public class UserApiTest {
         this.userApi = Feign.builder()
                 .encoder(new JacksonEncoder(mapper))
                 .decoder(new JacksonDecoder(mapper))
-                .target(UserApi.class, "http://localhost:" + port);
+                .target(OAuthProviderUserManagementApi.class, "http://localhost:" + port);
     }
 
     @Test
