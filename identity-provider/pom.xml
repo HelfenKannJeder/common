@@ -48,6 +48,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>de.helfenkannjeder.common</groupId>
+            <artifactId>oauth-provider-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- janino is required for logback -->
         <dependency>
             <groupId>org.codehaus.janino</groupId>
@@ -83,6 +91,16 @@
             <artifactId>cucumber-junit</artifactId>
             <version>1.2.4</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.feign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.2.5.RELEASE</version>
         </dependency>
     </dependencies>
 

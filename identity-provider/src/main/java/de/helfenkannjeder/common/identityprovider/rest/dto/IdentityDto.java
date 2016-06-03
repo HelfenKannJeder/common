@@ -16,7 +16,6 @@ public class IdentityDto {
 	@ValueOfAuthenticationProvider()
 	private String authProvider;
 
-	@NotEmpty(message = "not.empty")
 	private String externalId;
 
 	@NotEmpty(message = "not.empty")

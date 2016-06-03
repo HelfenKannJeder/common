@@ -16,20 +16,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 public class IdentityProviderApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(IdentityProviderApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(IdentityProviderApplication.class, args);
+	}
 
-    @Bean
-    public ObjectMapper jacksonObjectMapper() {
-        return ObjectMapperFactory.objectMapperForRestEndpoint();
-    }
+	@Bean
+	public ObjectMapper jacksonObjectMapper() {
+		return ObjectMapperFactory.objectMapperForRestEndpoint();
+	}
 
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new RestLogFilter());
-        filterRegistrationBean.setOrder(1);
-        return filterRegistrationBean;
-    }
+	@Bean
+	public FilterRegistrationBean filterRegistrationBean() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new RestLogFilter());
+		filterRegistrationBean.setOrder(1);
+		return filterRegistrationBean;
+	}
 }

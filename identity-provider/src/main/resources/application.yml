@@ -1,3 +1,7 @@
+helfenKannJederOAuthProvider:
+    endpoint: http://localhost:8081
+
+
 # ===============================
 # = DATA SOURCE
 # ===============================
@@ -18,3 +22,5 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect
+
+
