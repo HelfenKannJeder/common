@@ -11,6 +11,8 @@
 
     <properties>
         <junit.version>4.12</junit.version>
+        <feign.version>8.16.2</feign.version>
+        <jackson.version>2.7.4</jackson.version>
     </properties>
 
     <modules>
