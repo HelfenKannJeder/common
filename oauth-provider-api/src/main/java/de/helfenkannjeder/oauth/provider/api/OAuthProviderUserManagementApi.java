@@ -10,12 +10,16 @@ import feign.RequestLine;
  */
 public interface OAuthProviderUserManagementApi {
 
-    @RequestLine("POST /user/create")
-    UserResponseDto create(UserRequestDto userRequestDto);
+	String CREATE = "/users";
+	String UPDATE = "/users/{id}";
+	String DELETE = "/users/{id}";
 
-    @RequestLine("PUT /user/{id}")
-    void update(@Param("id") String id, UserRequestDto userRequestDto);
+	@RequestLine("POST " + CREATE)
+	UserResponseDto create(UserRequestDto userRequestDto);
 
-    @RequestLine("DELETE /user/{id}")
-    void delete(@Param("id") String id);
+	@RequestLine("PUT " + UPDATE)
+	void update(@Param("id") String id, UserRequestDto userRequestDto);
+
+	@RequestLine("DELETE " + DELETE)
+	void delete(@Param("id") String id);
 }
