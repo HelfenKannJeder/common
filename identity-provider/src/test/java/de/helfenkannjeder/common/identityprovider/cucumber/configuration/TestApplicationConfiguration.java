@@ -10,7 +10,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@ComponentScan(basePackages = "de.helfenkannjeder.come2help.server.cucumber")
+@ComponentScan(basePackages = "de.helfenkannjeder.common.identityprovider.cucumber")
 @PropertySource("classpath:application.yml")
 public class TestApplicationConfiguration {
 
