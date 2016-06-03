@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 
 @RestController
-@RequestMapping("identities/")
+@RequestMapping("identities")
 @Transactional
 public class IdentityController {
 
