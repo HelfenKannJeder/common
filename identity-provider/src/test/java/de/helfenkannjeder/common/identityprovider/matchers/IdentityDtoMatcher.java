@@ -8,7 +8,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
+public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
+
+	private Matcher<? super Long> id = Matchers.anything();
 
 	private Matcher<? super String> email = Matchers.anything();
 
@@ -18,42 +20,40 @@ public class UserDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 
 	private Matcher<? super String> phone = Matchers.anything();
 
-	private Matcher<? super Boolean> adult = Matchers.anything();
-
-	public static UserDtoMatcher matchesUser() {
-		return new UserDtoMatcher();
+	public static IdentityDtoMatcher matchesIdentityDto() {
+		return new IdentityDtoMatcher();
 	}
 
-	public static UserDtoMatcher matchesUser(IdentityDto identityDto) {
-		return new UserDtoMatcher().withEmail(identityDto.getEmail())
+	public static IdentityDtoMatcher matchesIdentityDto(IdentityDto identityDto) {
+		return new IdentityDtoMatcher().withEmail(identityDto.getEmail())
 				.withGivenName(identityDto.getGivenName())
 				.withSurname(identityDto.getSurname())
 				.withPhone(identityDto.getPhone());
 	}
 
-	public UserDtoMatcher withEmail(String email) {
+	public IdentityDtoMatcher withId(Long id) {
+		this.id = equalTo(id);
+		return this;
+	}
+
+	public IdentityDtoMatcher withEmail(String email) {
 		this.email = equalTo(email);
 		return this;
 	}
 
-	public UserDtoMatcher withGivenName(String givenName) {
+	public IdentityDtoMatcher withGivenName(String givenName) {
 		this.givenName = equalTo(givenName);
 		return this;
 	}
 
-	public UserDtoMatcher withSurname(String surname) {
+	public IdentityDtoMatcher withSurname(String surname) {
 		this.surname = equalTo(surname);
 		return this;
 	}
 
 
-	public UserDtoMatcher withPhone(String phone) {
+	public IdentityDtoMatcher withPhone(String phone) {
 		this.phone = equalTo(phone);
-		return this;
-	}
-
-	public UserDtoMatcher withAdult(Boolean isAdult) {
-		this.adult = equalTo(isAdult);
 		return this;
 	}
 
@@ -61,6 +61,11 @@ public class UserDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 	protected boolean matchesSafely(IdentityDto item, final Description mismatchDescription) {
 		boolean matches = true;
 		mismatchDescription.appendText("was IdentityDto");
+
+		if (!id.matches(item.getId())) {
+			mismatchDescription.appendText(" with id=").appendValue(item.getId());
+			matches = false;
+		}
 
 		if (!email.matches(item.getEmail())) {
 			mismatchDescription.appendText(" with email=").appendValue(item.getEmail());
@@ -84,10 +89,10 @@ public class UserDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 	@Override
 	public void describeTo(Description description) {
 		description
+				.appendText(", with id=").appendDescriptionOf(id)
 				.appendText(", with email=").appendDescriptionOf(email)
 				.appendText(", with givenName=").appendDescriptionOf(givenName)
 				.appendText(", with surname=").appendDescriptionOf(surname)
-				.appendText(", with phone=").appendDescriptionOf(phone)
-				.appendText(", with adult=").appendDescriptionOf(adult);
+				.appendText(", with phone=").appendDescriptionOf(phone);
 	}
 }

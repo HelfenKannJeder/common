@@ -6,7 +6,7 @@
 //import de.helfenkannjeder.common.identityprovider.matchers.UserMatcher;
 //import org.junit.Test;
 //
-//import static de.helfenkannjeder.common.identityprovider.matchers.UserMatcher.matchesUser;
+//import static de.helfenkannjeder.common.identityprovider.matchers.UserMatcher.matchesIdentityDto;
 //import static org.hamcrest.MatcherAssert.assertThat;
 //
 //public class UserDtoTest {
@@ -16,7 +16,7 @@
 //        Identity user = IdentityObjectMother.anyValidIdentity();
 //        IdentityDto dto = IdentityDto.createFullDto(user);
 //
-//        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
+//        assertThat(user, UserMatcher.matchesIdentityDto().withEmail(dto.getEmail())
 //                .withGivenName(dto.getGivenName())
 //                .withSurname(dto.getSurname())
 //                .withAddress(AddressDto.createAddress(dto.getAddress()))
@@ -28,7 +28,7 @@
 //        IdentityDto dto = IdentityDtoObjectMother.anyValidUserDto();
 //        Identity user = IdentityDto.createUser(dto);
 //
-//        assertThat(user, UserMatcher.matchesUser().withEmail(dto.getEmail())
+//        assertThat(user, UserMatcher.matchesIdentityDto().withEmail(dto.getEmail())
 //                .withSurname(dto.getSurname())
 //                .withGivenName(dto.getGivenName())
 //                .withAddress(AddressDto.createAddress(dto.getAddress()))
