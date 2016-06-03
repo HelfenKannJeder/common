@@ -1,4 +1,4 @@
-package de.helfenkannjeder.common.identityprovider.domain;
+package de.helfenkannjeder.identity.provider.api.dto;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -15,18 +15,5 @@ public enum AuthenticationProvider {
 
 	AuthenticationProvider(String apiName) {
 		this.apiName = apiName;
-	}
-
-	public static AuthenticationProvider getByApiName(String apiName) {
-		for (AuthenticationProvider authenticationProvider : values()) {
-			if (authenticationProvider.apiName.equalsIgnoreCase(apiName)) {
-				return authenticationProvider;
-			}
-		}
-		return null;
-	}
-
-	public String getApiName() {
-		return apiName;
 	}
 }

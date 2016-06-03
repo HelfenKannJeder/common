@@ -7,7 +7,7 @@ import com.google.common.collect.Iterables;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityApiRestClient;
-import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

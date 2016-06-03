@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.matchers;
 
-import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
+import de.helfenkannjeder.common.identityprovider.domain.DomainAuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -13,7 +13,7 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 
 	private Matcher<? super String> id = Matchers.anything();
 
-	private Matcher<? super AuthenticationProvider> authProvider = Matchers.anything();
+	private Matcher<? super DomainAuthenticationProvider> authProvider = Matchers.anything();
 
 	private Matcher<? super String> externalId = Matchers.anything();
 
@@ -60,7 +60,7 @@ public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 		return this;
 	}
 
-	public IdentityMatcher withAuthProvider(AuthenticationProvider authProvider) {
+	public IdentityMatcher withAuthProvider(DomainAuthenticationProvider authProvider) {
 		this.authProvider = equalTo(authProvider);
 		return this;
 	}

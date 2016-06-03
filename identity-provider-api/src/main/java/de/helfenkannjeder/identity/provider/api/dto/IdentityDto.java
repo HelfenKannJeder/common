@@ -1,8 +1,5 @@
-package de.helfenkannjeder.common.identityprovider.rest.dto;
+package de.helfenkannjeder.identity.provider.api.dto;
 
-import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
-import de.helfenkannjeder.common.identityprovider.domain.Identity;
-import de.helfenkannjeder.common.identityprovider.rest.dto.validation.ValidAuthenticationProvider;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,8 +10,7 @@ public class IdentityDto {
 	private Long id;
 
 	@NotNull
-	@ValidAuthenticationProvider()
-	private String authProvider;
+	private AuthenticationProvider authProvider;
 
 	private String externalId;
 
@@ -35,7 +31,7 @@ public class IdentityDto {
 	public IdentityDto() {
 	}
 
-	public IdentityDto(Long id, String authProvider, String externalId, String email, String givenName, String surname, String phone) {
+	public IdentityDto(Long id, AuthenticationProvider authProvider, String externalId, String email, String givenName, String surname, String phone) {
 		this.id = id;
 		this.authProvider = authProvider;
 		this.externalId = externalId;
@@ -45,13 +41,6 @@ public class IdentityDto {
 		this.phone = phone;
 	}
 
-	public static IdentityDto createFullDto(Identity identity) {
-		return new IdentityDto(identity.getId(), identity.getAuthProvider().getApiName(), identity.getExternalId(), identity.getEmail(), identity.getGivenName(), identity.getSurname(), identity.getPhone());
-	}
-
-	public static Identity createIdentity(IdentityDto user) {
-		return new Identity(user.getId(), AuthenticationProvider.getByApiName(user.getAuthProvider()), user.getExternalId(), user.email, user.givenName, user.surname, user.phone);
-	}
 
 	public Long getId() {
 		return id;
@@ -89,11 +78,11 @@ public class IdentityDto {
 		return this;
 	}
 
-	public String getAuthProvider() {
+	public AuthenticationProvider getAuthProvider() {
 		return authProvider;
 	}
 
-	public IdentityDto setAuthProvider(String authProvider) {
+	public IdentityDto setAuthProvider(AuthenticationProvider authProvider) {
 		this.authProvider = authProvider;
 		return this;
 	}

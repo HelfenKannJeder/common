@@ -1,7 +1,7 @@
 package de.helfenkannjeder.common.identityprovider.service;
 
 import com.google.common.collect.Lists;
-import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
+import de.helfenkannjeder.common.identityprovider.domain.DomainAuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.domain.repository.IdentityRepository;
 import de.helfenkannjeder.common.identityprovider.service.exception.DuplicateResourceException;
@@ -61,7 +61,7 @@ public class IdentityService {
 			throw new DuplicateResourceException(format("An identity with authenticationProvider %s and externalId %s already exists", identity.getAuthProvider(), identity.getExternalId()));
 		}
 
-		if (identity.getAuthProvider() == AuthenticationProvider.HELFENKANNJEDER) {
+		if (identity.getAuthProvider() == DomainAuthenticationProvider.HELFENKANNJEDER) {
 			String newId = createOAuthUser(identity.getEmail());
 			identity.setExternalId(newId);
 		}

@@ -10,7 +10,7 @@ import de.helfenkannjeder.common.identityprovider.cucumber.configuration.TestApp
 import de.helfenkannjeder.common.identityprovider.cucumber.transformers.HTTPStatusTransformer;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjectMother;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
-import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.hamcrest.CoreMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.ConfigFileApplicationContextInitializer;

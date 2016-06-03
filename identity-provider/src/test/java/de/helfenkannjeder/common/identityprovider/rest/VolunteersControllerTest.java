@@ -1,6 +1,6 @@
 //package de.helfenkannjeder.common.identityprovider.rest;
 //
-//import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
+//import IdentityDto;
 //import de.helfenkannjeder.come2help.server.security.Authorities;
 //import org.codehaus.jackson.map.ObjectMapper;
 //import org.hamcrest.CoreMatchers;

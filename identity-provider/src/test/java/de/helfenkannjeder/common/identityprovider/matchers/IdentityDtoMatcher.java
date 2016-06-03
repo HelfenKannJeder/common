@@ -1,6 +1,7 @@
 package de.helfenkannjeder.common.identityprovider.matchers;
 
-import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
+import de.helfenkannjeder.identity.provider.api.dto.AuthenticationProvider;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -18,7 +19,7 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 
 	private Matcher<? super String> surname = Matchers.anything();
 
-	private Matcher<? super String> authProvider = Matchers.anything();
+	private Matcher<? super AuthenticationProvider> authProvider = Matchers.anything();
 
 	private Matcher<? super String> externalId = Matchers.anything();
 
@@ -58,7 +59,7 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 		return this;
 	}
 
-	public IdentityDtoMatcher withAuthProvider(String authProvider) {
+	public IdentityDtoMatcher withAuthProvider(AuthenticationProvider authProvider) {
 		this.authProvider = equalTo(authProvider);
 		return this;
 	}

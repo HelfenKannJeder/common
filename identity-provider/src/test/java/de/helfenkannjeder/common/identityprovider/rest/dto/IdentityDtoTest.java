@@ -2,10 +2,12 @@ package de.helfenkannjeder.common.identityprovider.rest.dto;
 
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityDtoObjectMother;
 import de.helfenkannjeder.common.identityprovider.cucumber.util.IdentityObjectMother;
-import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityDtoMatcher;
 import de.helfenkannjeder.common.identityprovider.matchers.IdentityMatcher;
+import de.helfenkannjeder.common.identityprovider.rest.mapping.AuthenticationProviderMapper;
+import de.helfenkannjeder.common.identityprovider.rest.mapping.IdentityDtoMapper;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,7 +17,7 @@ public class IdentityDtoTest {
 	@Test
 	public void testIdentityToIdentityDto() {
 		Identity identity = IdentityObjectMother.anyValidIdentity();
-		IdentityDto dto = IdentityDto.createFullDto(identity);
+		IdentityDto dto = IdentityDtoMapper.createFullDto(identity);
 
 		assertThat(dto, IdentityDtoMatcher.matchesIdentityDto()
 				.withId(identity.getId())
@@ -23,14 +25,14 @@ public class IdentityDtoTest {
 				.withGivenName(dto.getGivenName())
 				.withSurname(dto.getSurname())
 				.withPhone(dto.getPhone())
-				.withAuthProvider(identity.getAuthProvider().getApiName())
+				.withAuthProvider(AuthenticationProviderMapper.mapToApi(identity.getAuthProvider()))
 				.withExternalId(identity.getExternalId()));
 	}
 
 	@Test
 	public void testIdentityDtoToIdentity() {
 		IdentityDto dto = IdentityDtoObjectMother.anyValidUserDto();
-		Identity identity = IdentityDto.createIdentity(dto);
+		Identity identity = IdentityDtoMapper.createIdentity(dto);
 
 		assertThat(identity, IdentityMatcher.matchesIdentity()
 				.withId(dto.getId())
@@ -38,7 +40,7 @@ public class IdentityDtoTest {
 				.withSurname(dto.getSurname())
 				.withGivenName(dto.getGivenName())
 				.withPhone(dto.getPhone())
-				.withAuthProvider(AuthenticationProvider.getByApiName(dto.getAuthProvider()))
+				.withAuthProvider(AuthenticationProviderMapper.mapToDomain(dto.getAuthProvider()))
 				.withExternalId(dto.getExternalId()));
 	}
 }

@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.cucumber.util;
 
-import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;

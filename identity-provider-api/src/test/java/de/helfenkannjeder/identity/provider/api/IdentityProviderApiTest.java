@@ -1,7 +1,6 @@
 package de.helfenkannjeder.identity.provider.api;
 
-import de.helfenkannjeder.identity.provider.api.dto.UserRequestDto;
-import de.helfenkannjeder.identity.provider.api.dto.UserResponseDto;
+import de.helfenkannjeder.identity.provider.api.dto.IdentityDto;
 import de.helfenkannjeder.testutils.FeignApiBuilder;
 import de.helfenkannjeder.testutils.TestServer;
 import org.junit.Before;
@@ -14,41 +13,44 @@ import static org.junit.Assert.assertEquals;
  */
 public class IdentityProviderApiTest {
 
-	private IdentityProviderTest api;
+	private IdentityProviderApi api;
 
 	@Before
 	public void setUp() throws Exception {
 		int port = TestServer.startHttpServer();
-		this.api = FeignApiBuilder.create(IdentityProviderTest.class, "http://localhost:" + port);
+		this.api = FeignApiBuilder.create(IdentityProviderApi.class, "http://localhost:" + port);
 	}
 
 	@Test
 	public void create_withUsernameAndPassword_returnsNewId() throws Exception {
 		// Arrange
-		TestServer.addResource(IdentityProviderTest.CREATE, new TestServer.StringHttpHandler("{\"id\":\"myUserId\"}"));
+		TestServer.addResource(IdentityProviderApi.CREATE, new TestServer.StringHttpHandler("{\"id\":\"42\"}"));
 
 		// Act
-		UserResponseDto response = api.create(new UserRequestDto("myUser", "myPassword"));
+		IdentityDto response = api.create(new IdentityDto().setId(42L));
 
 		// Assert
-		assertEquals("myUserId", response.getId());
+		assertEquals(Long.valueOf(42L), response.getId());
 	}
 
 	@Test
 	public void update_withUserAndPassword_doesNotFail() throws Exception {
 		// Arrange
-		TestServer.addResource(IdentityProviderTest.CREATE.replace("{id}", "myUserId"), new TestServer.NoContentHttpHandler());
+		TestServer.addResource(IdentityProviderApi.CREATE.replace("{id}", "42"), new TestServer.StringHttpHandler("{\"id\":\"42\"}"));
 
 		// Act
-		api.update("myUserId", new UserRequestDto("myUser", "myPassword"));
+		IdentityDto response = api.update(42L, new IdentityDto());
+
+		// Assert
+		assertEquals(Long.valueOf(42L), response.getId());
 	}
 
 	@Test
 	public void delete_withId_doesNotFail() throws Exception {
 		// Arrange
-		TestServer.addResource(IdentityProviderTest.DELETE.replace("{id}", "myUserId"), new TestServer.NoContentHttpHandler());
+		TestServer.addResource(IdentityProviderApi.DELETE.replace("{id}", "42"), new TestServer.StringHttpHandler("{\"id\":\"42\"}"));
 
 		// Act
-		api.delete("myUserId");
+		api.delete(42L);
 	}
 }
