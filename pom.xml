@@ -9,7 +9,12 @@
 
     <packaging>pom</packaging>
 
+    <properties>
+        <junit.version>4.12</junit.version>
+    </properties>
+
     <modules>
         <module>oauth-provider</module>
+        <module>oauth-provider-api</module>
     </modules>
 </project>
