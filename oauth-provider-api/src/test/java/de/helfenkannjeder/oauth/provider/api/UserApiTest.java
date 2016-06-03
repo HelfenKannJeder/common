@@ -40,20 +40,31 @@ public class UserApiTest {
 
     @Test
     public void create_withUsernameAndPassword_returnsNewId() throws Exception {
+        // Arrange
         TestServer.addResource("/user/create", new TestServer.StringHttpHandler("{\"id\":\"myUserId\"}"));
+
+        // Act
         UserResponseDto response = userApi.create(new UserRequestDto("myUser", "myPassword"));
+
+        // Assert
         assertEquals("myUserId", response.getId());
     }
 
     @Test
     public void update_withUserAndPassword_doesNotFail() throws Exception {
+        // Arrange
         TestServer.addResource("/user/myUserId", new TestServer.NoContentHttpHandler());
+
+        // Act
         userApi.update("myUserId", new UserRequestDto("myUser", "myPassword"));
     }
 
     @Test
     public void delete_withId_doesNotFail() throws Exception {
+        // Arrange
         TestServer.addResource("/user/myUserId", new TestServer.NoContentHttpHandler());
+
+        // Act
         userApi.delete("myUserId");
     }
 }
