@@ -35,7 +35,7 @@ Feature: Crud operations for identities
   Scenario: Delete a non existing identity
     Given a non existing identity
     When the identity is deleted
-    Then the returned status code is HTTP 404 Not Found
+    Then the returned status code is HTTP 204 No Content
 
   Scenario: Delete an existing identity
     Given an existing identity

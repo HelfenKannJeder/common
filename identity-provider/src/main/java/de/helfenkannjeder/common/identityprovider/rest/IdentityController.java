@@ -5,6 +5,7 @@ import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import de.helfenkannjeder.common.identityprovider.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -47,6 +48,7 @@ public class IdentityController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@NotNull @PathVariable("id") Long id) {
 		identityService.deleteIdentityById(id);
 	}
