@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 public interface OAuthUserRepository extends CrudRepository<OAuthUser, Long> {
+    OAuthUser findOneByUsername(String username);
 }

@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
@@ -24,11 +22,6 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @RequestMapping("/userInformation")
-    public Principal currentUser(Principal user) {
-        return user;
-    }
 
     @Override
     @RequestMapping(value = CREATE, method = RequestMethod.POST)

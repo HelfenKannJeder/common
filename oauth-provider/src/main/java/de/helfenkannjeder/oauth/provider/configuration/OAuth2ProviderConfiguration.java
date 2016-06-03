@@ -1,9 +1,11 @@
 package de.helfenkannjeder.oauth.provider.configuration;
 
+import de.helfenkannjeder.oauth.provider.service.OAuthUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -19,16 +21,19 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @Configuration
 public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAdapter {
 
+    public static final String COME2HELP_CLIENT_WEB = "come2help-web";
     private TokenStore tokenStore = new InMemoryTokenStore();
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("come2help-web")
+        // @formatter:off
+        clients.inMemory().withClient(COME2HELP_CLIENT_WEB)
                 .resourceIds("come2help")
                 .authorizedGrantTypes("authorization_code")
-                .authorities("CLIENT")
+                .authorities(OAuthUserDetailsService.Authority.ROLE_USER.getAuthority())
                 .scopes("read", "write")
                 .secret("secret");
+        // @formatter:on
     }
 
     @Override
@@ -42,12 +47,11 @@ public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAd
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder,
+                                UserDetailsService userDetailsService) throws Exception {
         authenticationManagerBuilder
-                .inMemoryAuthentication()
-                .withUser("user")
-                .password("password")
-                .roles("USER");
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
