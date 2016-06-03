@@ -8,7 +8,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserMatcher extends TypeSafeDiagnosingMatcher<Identity> {
+public class IdentityMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 
 	private Matcher<? super String> id = Matchers.anything();
 
@@ -25,34 +25,51 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 	private Matcher<? super String> phone = Matchers.anything();
 
 
-	public static UserMatcher matchesUser() {
-		return new UserMatcher();
+	public static IdentityMatcher matchesIdentity() {
+		return new IdentityMatcher();
 	}
 
-	public static UserMatcher matchesUser(Identity identity) {
-		return new UserMatcher().withEmail(identity.getEmail())
+	public static IdentityMatcher matchesIdentity(Identity identity) {
+		return new IdentityMatcher().withId(identity.getId())
+				.withEmail(identity.getEmail())
 				.withGivenName(identity.getGivenName())
 				.withSurname(identity.getSurname())
+				.withAuthProvider(identity.getAuthProvider())
+				.withExternalId(identity.getExternalId())
 				.withPhone(identity.getPhone());
 	}
 
-	public UserMatcher withEmail(String email) {
+	public IdentityMatcher withId(Long id) {
+		this.id = equalTo(id);
+		return this;
+	}
+
+	public IdentityMatcher withEmail(String email) {
 		this.email = equalTo(email);
 		return this;
 	}
 
-	public UserMatcher withGivenName(String givenName) {
+	public IdentityMatcher withGivenName(String givenName) {
 		this.givenName = equalTo(givenName);
 		return this;
 	}
 
-	public UserMatcher withSurname(String surname) {
+	public IdentityMatcher withSurname(String surname) {
 		this.surname = equalTo(surname);
 		return this;
 	}
 
+	public IdentityMatcher withAuthProvider(String authProvider) {
+		this.authProvider = equalTo(authProvider);
+		return this;
+	}
 
-	public UserMatcher withPhone(String phone) {
+	public IdentityMatcher withExternalId(String externalId) {
+		this.externalId = equalTo(externalId);
+		return this;
+	}
+
+	public IdentityMatcher withPhone(String phone) {
 		this.phone = equalTo(phone);
 		return this;
 	}
@@ -60,8 +77,12 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 	@Override
 	protected boolean matchesSafely(Identity item, final Description mismatchDescription) {
 		boolean matches = true;
-		mismatchDescription.appendText("was IdentityDto");
+		mismatchDescription.appendText("was Identity");
 
+		if (!id.matches(item.getId())) {
+			mismatchDescription.appendText(" with id=").appendValue(item.getId());
+			matches = false;
+		}
 		if (!email.matches(item.getEmail())) {
 			mismatchDescription.appendText(" with email=").appendValue(item.getEmail());
 			matches = false;
@@ -70,8 +91,12 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 			mismatchDescription.appendText(" with givenName=").appendValue(item.getGivenName());
 			matches = false;
 		}
+		if (!authProvider.matches(item.getAuthProvider())) {
+			mismatchDescription.appendText(" with authProvider=").appendValue(item.getAuthProvider());
+			matches = false;
+		}
 		if (!surname.matches(item.getSurname())) {
-			mismatchDescription.appendText(" with surname=").appendValue(item.getSurname());
+			mismatchDescription.appendText(" with externalId=").appendValue(item.getExternalId());
 			matches = false;
 		}
 		if (!phone.matches(item.getPhone())) {
@@ -84,9 +109,11 @@ public class UserMatcher extends TypeSafeDiagnosingMatcher<Identity> {
 	@Override
 	public void describeTo(Description description) {
 		description
+				.appendText(", with id=").appendDescriptionOf(id)
 				.appendText(", with email=").appendDescriptionOf(email)
 				.appendText(", with givenName=").appendDescriptionOf(givenName)
-				.appendText(", with surname=").appendDescriptionOf(surname)
+				.appendText(", with authProvider=").appendDescriptionOf(authProvider)
+				.appendText(", with externalId=").appendDescriptionOf(externalId)
 				.appendText(", with phone=").appendDescriptionOf(phone);
 	}
 }

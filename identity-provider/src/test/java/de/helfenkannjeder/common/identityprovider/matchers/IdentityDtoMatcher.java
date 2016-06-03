@@ -18,6 +18,10 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 
 	private Matcher<? super String> surname = Matchers.anything();
 
+	private Matcher<? super String> authProvider = Matchers.anything();
+
+	private Matcher<? super String> externalId = Matchers.anything();
+
 	private Matcher<? super String> phone = Matchers.anything();
 
 	public static IdentityDtoMatcher matchesIdentityDto() {
@@ -25,9 +29,12 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 	}
 
 	public static IdentityDtoMatcher matchesIdentityDto(IdentityDto identityDto) {
-		return new IdentityDtoMatcher().withEmail(identityDto.getEmail())
+		return new IdentityDtoMatcher().withId(identityDto.getId())
+				.withEmail(identityDto.getEmail())
 				.withGivenName(identityDto.getGivenName())
 				.withSurname(identityDto.getSurname())
+				.withAuthProvider(identityDto.getAuthProvider())
+				.withExternalId(identityDto.getExternalId())
 				.withPhone(identityDto.getPhone());
 	}
 
@@ -51,6 +58,15 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 		return this;
 	}
 
+	public IdentityDtoMatcher withAuthProvider(String authProvider) {
+		this.authProvider = equalTo(authProvider);
+		return this;
+	}
+
+	public IdentityDtoMatcher withExternalId(String externalId) {
+		this.externalId = equalTo(externalId);
+		return this;
+	}
 
 	public IdentityDtoMatcher withPhone(String phone) {
 		this.phone = equalTo(phone);
@@ -66,7 +82,6 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 			mismatchDescription.appendText(" with id=").appendValue(item.getId());
 			matches = false;
 		}
-
 		if (!email.matches(item.getEmail())) {
 			mismatchDescription.appendText(" with email=").appendValue(item.getEmail());
 			matches = false;
@@ -77,6 +92,14 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 		}
 		if (!surname.matches(item.getSurname())) {
 			mismatchDescription.appendText(" with surname=").appendValue(item.getSurname());
+			matches = false;
+		}
+		if (!authProvider.matches(item.getAuthProvider())) {
+			mismatchDescription.appendText(" with authProvider=").appendValue(item.getAuthProvider());
+			matches = false;
+		}
+		if (!externalId.matches(item.getExternalId())) {
+			mismatchDescription.appendText(" with externalId=").appendValue(item.getExternalId());
 			matches = false;
 		}
 		if (!phone.matches(item.getPhone())) {
@@ -93,6 +116,8 @@ public class IdentityDtoMatcher extends TypeSafeDiagnosingMatcher<IdentityDto> {
 				.appendText(", with email=").appendDescriptionOf(email)
 				.appendText(", with givenName=").appendDescriptionOf(givenName)
 				.appendText(", with surname=").appendDescriptionOf(surname)
+				.appendText(", with authProvider=").appendDescriptionOf(authProvider)
+				.appendText(", with externalId=").appendDescriptionOf(externalId)
 				.appendText(", with phone=").appendDescriptionOf(phone);
 	}
 }

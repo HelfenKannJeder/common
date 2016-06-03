@@ -18,6 +18,12 @@ public class IdentityDto {
 	@NotEmpty(message = "not.empty")
 	private String surname;
 
+	@NotEmpty(message = "not.empty")
+	private String authProvider;
+
+	@NotEmpty(message = "not.empty")
+	private String externalId;
+
 	private String phone;
 
 
@@ -74,6 +80,21 @@ public class IdentityDto {
 		return this;
 	}
 
+	public String getAuthProvider() {
+		return authProvider;
+	}
+
+	public void setAuthProvider(String authProvider) {
+		this.authProvider = authProvider;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
 
 	public String getPhone() {
 		return phone;
