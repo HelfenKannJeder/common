@@ -8,7 +8,7 @@ public class IdentityDtoObjectMother {
         return IdentityDto.createFullDto(IdentityObjectMother.anyValidIdentity());
     }
 
-    public static IdentityDto anyInvalidUserDto() {
+    public static IdentityDto anyInvalidIdentityDto() {
         return IdentityDto.createFullDto(IdentityObjectMother.anyInvalidIdentity());
     }
 }

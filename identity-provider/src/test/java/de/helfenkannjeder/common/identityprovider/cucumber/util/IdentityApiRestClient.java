@@ -25,31 +25,29 @@ public class IdentityApiRestClient {
     }
 
     public ResponseEntity<IdentityDto> createIdentity(IdentityDto identityDto) {
-        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.POST, createHttpEntity(identityDto), IdentityDto.class);
+        return restTemplate.exchange(getIdentitiesUrl(), HttpMethod.POST, createHttpEntity(identityDto), IdentityDto.class);
     }
 
     public ResponseEntity<IdentityDto> getIdentity(Long id) {
-        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.GET, null, IdentityDto.class, id);
+        return restTemplate.exchange(getIdentitiesUrl(), HttpMethod.GET, null, IdentityDto.class, id);
     }
 
-    /*
-    public ResponseEntity<UserDto> updateIdentity(IdentityDto identityDto) {
-        return restTemplate.exchange(getVolunteerUrl(), HttpMethod.PUT, createHttpEntity(identityDto), IdentityDto.class, identityDto.getId());
+    public ResponseEntity<IdentityDto> updateIdentity(IdentityDto identityDto) {
+        return restTemplate.exchange(getIdentityUrl(), HttpMethod.PUT, createHttpEntity(identityDto), IdentityDto.class, identityDto.getId());
     }
-    */
 
     public HttpStatus deleteIdentity(Long id) {
-        ResponseEntity<Void> responseEntity = restTemplate.exchange(getVolunteerUrl(), HttpMethod.DELETE, null, Void.class, id);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange(getIdentityUrl(), HttpMethod.DELETE, null, Void.class, id);
 
         return responseEntity.getStatusCode();
     }
 
-    private String getVolunteersUrl() {
-        return serviceBaseUrl + "/volunteers";
+    private String getIdentitiesUrl() {
+        return serviceBaseUrl + "/identities";
     }
 
-    private String getVolunteerUrl() {
-        return getVolunteersUrl() + "/{id}";
+    private String getIdentityUrl() {
+        return getIdentitiesUrl() + "/{id}";
     }
 
     private <T> HttpEntity<T> createHttpEntity(T body) {

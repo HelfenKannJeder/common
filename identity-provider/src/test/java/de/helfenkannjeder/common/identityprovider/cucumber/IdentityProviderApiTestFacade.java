@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration(classes = TestApplicationConfiguration.class)
-public class Come2helpApiTestFacade {
+public class IdentityProviderApiTestFacade {
 
     private final IdentityApiRestClient identityApiRestClient;
 
@@ -24,7 +24,7 @@ public class Come2helpApiTestFacade {
     private HttpStatus latestRelevantStatusCode;
 
     @Autowired
-    public Come2helpApiTestFacade(IdentityApiRestClient identityApiRestClient) {
+    public IdentityProviderApiTestFacade(IdentityApiRestClient identityApiRestClient) {
         this.identityApiRestClient = identityApiRestClient;
     }
 
@@ -42,11 +42,11 @@ public class Come2helpApiTestFacade {
         return Iterables.getLast(createdIdentities);
     }
 
-//    public ResponseEntity<IdentityDto> updateIdentity(IdentityDto identity) {
-//        ResponseEntity<VolunteerDto> responseEntity = identityApiRestClient.updateVolunteer(identity);
-//        latestRelevantStatusCode = responseEntity.getStatusCode();
-//        return responseEntity;
-//    }
+    public ResponseEntity<IdentityDto> updateIdentity(IdentityDto identity) {
+        ResponseEntity<IdentityDto> responseEntity = identityApiRestClient.updateIdentity(identity);
+        latestRelevantStatusCode = responseEntity.getStatusCode();
+        return responseEntity;
+    }
 
     public ResponseEntity<IdentityDto> createIdentity(IdentityDto identity) {
         ResponseEntity<IdentityDto> responseEntity = identityApiRestClient.createIdentity(identity);
