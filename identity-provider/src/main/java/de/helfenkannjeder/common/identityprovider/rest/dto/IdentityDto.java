@@ -2,7 +2,7 @@ package de.helfenkannjeder.common.identityprovider.rest.dto;
 
 import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 import de.helfenkannjeder.common.identityprovider.domain.Identity;
-import de.helfenkannjeder.common.identityprovider.rest.dto.validation.ValueOfAuthenticationProvider;
+import de.helfenkannjeder.common.identityprovider.rest.dto.validation.ValidAuthenticationProvider;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -13,7 +13,7 @@ public class IdentityDto {
 	private Long id;
 
 	@NotNull
-	@ValueOfAuthenticationProvider()
+	@ValidAuthenticationProvider()
 	private String authProvider;
 
 	private String externalId;

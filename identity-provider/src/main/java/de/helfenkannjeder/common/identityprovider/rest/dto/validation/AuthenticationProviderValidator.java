@@ -1,20 +1,18 @@
 package de.helfenkannjeder.common.identityprovider.rest.dto.validation;
 
-import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
-
-import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class AuthenticationProviderValidator implements ConstraintValidator<ValueOfAuthenticationProvider, String> {
+import de.helfenkannjeder.common.identityprovider.domain.AuthenticationProvider;
 
-	public void initialize(ValueOfAuthenticationProvider constraint) {
+public class AuthenticationProviderValidator extends NullSaveBaseValidator<ValidAuthenticationProvider, String> {
+
+	@Override
+	public void initialize(ValidAuthenticationProvider constraintAnnotation) {
+
 	}
 
-	public boolean isValid(String obj, ConstraintValidatorContext context) {
-		if (obj == null) {
-			return true;
-		}
-
-		return AuthenticationProvider.API_NAMES.contains(obj);
+	@Override
+	protected boolean isValidNullSave(String value, ConstraintValidatorContext context) {
+		return AuthenticationProvider.API_NAMES.contains(value);
 	}
 }
