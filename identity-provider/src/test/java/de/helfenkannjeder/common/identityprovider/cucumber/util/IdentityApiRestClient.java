@@ -1,6 +1,6 @@
 package de.helfenkannjeder.common.identityprovider.cucumber.util;
 
-import de.helfenkannjeder.common.identityprovider.rest.dto.UserDto;
+import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,17 +24,17 @@ public class IdentityApiRestClient {
         this.serviceBaseUrl = serviceBaseUrl;
     }
 
-    public ResponseEntity<UserDto> createVolunteer(UserDto identityDto) {
-        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.POST, createHttpEntity(identityDto), UserDto.class);
+    public ResponseEntity<IdentityDto> createVolunteer(IdentityDto identityDto) {
+        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.POST, createHttpEntity(identityDto), IdentityDto.class);
     }
 
-    public ResponseEntity<UserDto> getVolunteer(Long id) {
-        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.GET, null, UserDto.class, id);
+    public ResponseEntity<IdentityDto> getVolunteer(Long id) {
+        return restTemplate.exchange(getVolunteersUrl(), HttpMethod.GET, null, IdentityDto.class, id);
     }
 
     /*
-    public ResponseEntity<UserDto> updateVolunteer(UserDto identityDto) {
-        return restTemplate.exchange(getVolunteerUrl(), HttpMethod.PUT, createHttpEntity(identityDto), UserDto.class, identityDto.getId());
+    public ResponseEntity<UserDto> updateVolunteer(IdentityDto identityDto) {
+        return restTemplate.exchange(getVolunteerUrl(), HttpMethod.PUT, createHttpEntity(identityDto), IdentityDto.class, identityDto.getId());
     }
     */
 
