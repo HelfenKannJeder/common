@@ -5,10 +5,7 @@ import de.helfenkannjeder.common.identityprovider.domain.Identity;
 import de.helfenkannjeder.common.identityprovider.rest.dto.IdentityDto;
 import de.helfenkannjeder.common.identityprovider.service.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
@@ -25,7 +22,7 @@ public class IdentityController {
 	private IdentityService identityService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public IdentityDto createUser(@Valid IdentityDto identityDto) {
+	public IdentityDto createUser(@Valid @RequestBody IdentityDto identityDto) {
 		Identity identity = IdentityDto.createUser(identityDto);
 
 		if (identity.getAuthProvider() != AuthenticationProvider.HELFENKANNJEDER && (identity.getExternalId() == null || identity.getExternalId().isEmpty())) {
