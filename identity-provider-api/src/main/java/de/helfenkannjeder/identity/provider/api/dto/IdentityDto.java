@@ -9,7 +9,7 @@ public class IdentityDto {
 
 	private Long id;
 
-	@NotNull
+	@NotNull(message = "not.null")
 	private AuthenticationProvider authProvider;
 
 	private String externalId;
