@@ -26,7 +26,7 @@ public class OAuthUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        OAuthUser user = oAuthUserRepository.findOneByUsername(username);
+        OAuthUser user = oAuthUserRepository.findOneByUsernameIgnoreCase(username);
         if (user == null) {
             return null;
         }

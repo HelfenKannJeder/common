@@ -27,7 +27,7 @@ public class OAuthUserDetailsServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        when(oAuthUserRepository.findOneByUsername("my-user")).thenReturn(new OAuthUser("my-user", "$2a$10$mXEdVKm16/vj/JyE.MgQ..UBa0p4rF1JYeGvLzvOJykact6UPVRx."));
+        when(oAuthUserRepository.findOneByUsernameIgnoreCase("my-user")).thenReturn(new OAuthUser("my-user", "$2a$10$mXEdVKm16/vj/JyE.MgQ..UBa0p4rF1JYeGvLzvOJykact6UPVRx."));
         oAuthUserDetailsService = new OAuthUserDetailsService(oAuthUserRepository);
     }
 

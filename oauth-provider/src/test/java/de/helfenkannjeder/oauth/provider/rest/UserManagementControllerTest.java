@@ -1,5 +1,6 @@
 package de.helfenkannjeder.oauth.provider.rest;
 
+import de.helfenkannjeder.oauth.provider.MockMvcOAuthLogin;
 import de.helfenkannjeder.oauth.provider.api.OAuthProviderUserManagementApi;
 import de.helfenkannjeder.oauth.provider.api.dto.UserRequestDto;
 import de.helfenkannjeder.oauth.provider.api.dto.UserResponseDto;
@@ -8,7 +9,6 @@ import de.helfenkannjeder.oauth.provider.configuration.OAuth2ProviderConfigurati
 import de.helfenkannjeder.oauth.provider.domain.OAuthUser;
 import de.helfenkannjeder.oauth.provider.domain.repository.OAuthUserRepository;
 import de.helfenkannjeder.oauth.provider.security.OAuthProviderAuthority;
-import de.helfenkannjeder.oauth.provider.MockMvcOAuthLogin;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +103,7 @@ public class UserManagementControllerTest {
 
         // Act
         MvcResult result = this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
-                .header("Authorization", mockMvcOAuthLogin.getAccessTokenWithClientSecret("oauth-provider-admin", "default-secret"))
+                .header("Authorization", getAuthorizationAdmin())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(userRequestDto))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
@@ -125,10 +125,44 @@ public class UserManagementControllerTest {
     }
 
     @Test
+    public void create_withAdminAndDuplicateUsernameInLowerCase_returnsConflict() throws Exception {
+        // Arrange
+        userRequestDto.setUsername(DEFAULT_USER.toLowerCase());
+
+        // Act
+        this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(userRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+
+                // Assert
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void create_withAdminAndDuplicateUsernameInUpperCase_returnsConflict() throws Exception {
+        // Arrange
+        userRequestDto.setUsername(DEFAULT_USER.toUpperCase());
+
+        // Act
+        this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(userRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+
+                // Assert
+                .andExpect(status().isConflict());
+    }
+
+    @Test
     public void create_withNotAdmin_returns403() throws Exception {
         // Act + Assert
         this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
-                .header("Authorization", mockMvcOAuthLogin.getAccessTokenWithAuthorizationCode("come2help-web", "secret", DEFAULT_USER, DEFAULT_PASSWORD))
+                .header("Authorization", getAuthorizationDefaultUser())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(userRequestDto))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
@@ -143,5 +177,13 @@ public class UserManagementControllerTest {
                 .content(objectMapper.writeValueAsString(userRequestDto))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(status().isUnauthorized());
+    }
+
+    private String getAuthorizationAdmin() throws Exception {
+        return mockMvcOAuthLogin.getAccessTokenWithClientSecret("oauth-provider-admin", "default-secret");
+    }
+
+    private String getAuthorizationDefaultUser() throws Exception {
+        return mockMvcOAuthLogin.getAccessTokenWithAuthorizationCode("come2help-web", "secret", DEFAULT_USER, DEFAULT_PASSWORD);
     }
 }
