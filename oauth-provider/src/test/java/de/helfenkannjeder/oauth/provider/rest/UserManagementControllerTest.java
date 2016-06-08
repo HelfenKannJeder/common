@@ -8,6 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 @Transactional
+@DirtiesContext
 public class UserManagementControllerTest extends AbstractOAuthControllerTest {
 
     public static final String RESOURCE_PREFIX = "/admin";

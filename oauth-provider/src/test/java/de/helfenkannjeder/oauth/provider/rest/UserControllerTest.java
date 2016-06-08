@@ -2,6 +2,7 @@ package de.helfenkannjeder.oauth.provider.rest;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 @Transactional
+@DirtiesContext
 public class UserControllerTest extends AbstractOAuthControllerTest {
 
     @Test
