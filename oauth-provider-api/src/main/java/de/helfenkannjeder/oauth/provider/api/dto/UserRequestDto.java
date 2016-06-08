@@ -1,11 +1,20 @@
 package de.helfenkannjeder.oauth.provider.api.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
 public class UserRequestDto {
 
+    @NotNull
+    @NotEmpty
     private String username;
+
+    @NotNull
+    @NotEmpty
     private String password;
 
     public UserRequestDto() {

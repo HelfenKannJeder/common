@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
@@ -26,10 +28,8 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
 
     @Override
     @RequestMapping(value = CREATE, method = RequestMethod.POST)
-    public UserResponseDto create(@RequestBody UserRequestDto userRequestDto) {
-        if (oAuthUserRepository.findOneByUsernameIgnoreCase(userRequestDto.getUsername()) != null) {
-            throw new UsernameAlreadyExistsException();
-        }
+    public UserResponseDto create(@Valid @RequestBody UserRequestDto userRequestDto) {
+        assertUserDoesNotExists(userRequestDto);
 
         String password = passwordEncoder.encode(userRequestDto.getPassword());
         OAuthUser user = oAuthUserRepository.save(new OAuthUser(userRequestDto.getUsername(), password));
@@ -39,8 +39,22 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
     @Override
     @RequestMapping(value = UPDATE, method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable("id") String id, UserRequestDto userRequestDto) {
-        throw new RuntimeException("Not yet implemented");
+    public void update(@PathVariable("id") String id, @Valid @RequestBody UserRequestDto userRequestDto) {
+        OAuthUser user = oAuthUserRepository.findOne(Long.valueOf(id));
+
+        if (!user.getUsername().equals(userRequestDto.getUsername())) {
+            assertUserDoesNotExists(userRequestDto);
+        }
+
+        user.setUsername(userRequestDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        oAuthUserRepository.save(user);
+    }
+
+    private void assertUserDoesNotExists(@RequestBody UserRequestDto userRequestDto) {
+        if (oAuthUserRepository.findOneByUsernameIgnoreCase(userRequestDto.getUsername()) != null) {
+            throw new UsernameAlreadyExistsException();
+        }
     }
 
     @Override

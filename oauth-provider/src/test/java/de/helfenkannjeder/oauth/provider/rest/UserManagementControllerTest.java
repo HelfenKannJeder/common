@@ -16,6 +16,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -38,10 +39,6 @@ public class UserManagementControllerTest extends AbstractOAuthControllerTest {
 
     @Test
     public void create_withAdminAndUsernameAndPassword_returnsNewUserId() throws Exception {
-        // Arrange
-        String username = "my-user";
-        String password = "my-password";
-
         // Act
         MvcResult result = this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
                 .header("Authorization", getAuthorizationAdmin())
@@ -61,8 +58,32 @@ public class UserManagementControllerTest extends AbstractOAuthControllerTest {
         String userId = userResponseDto.getId();
         assertNotNull(userId);
         OAuthUser oAuthUser = oAuthUserRepository.findOne(Long.valueOf(userId));
-        assertEquals(username, oAuthUser.getUsername());
-        assertTrue(passwordEncoder.matches(password, oAuthUser.getPassword()));
+        assertEquals(userRequestDto.getUsername(), oAuthUser.getUsername());
+        assertTrue(passwordEncoder.matches(userRequestDto.getPassword(), oAuthUser.getPassword()));
+    }
+
+    @Test
+    public void create_withAdminAndWithoutContent_returnsNoNewUser() throws Exception {
+        // Act
+        this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{}")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void create_withAdminAndWithEmptyUsernameAndPassword_returnsNoNewUser() throws Exception {
+        // Act
+        this.mockMvc.perform(post(RESOURCE_PREFIX + OAuthProviderUserManagementApi.CREATE)
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"username\":\"\",\"password\":\"\"}")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -118,6 +139,92 @@ public class UserManagementControllerTest extends AbstractOAuthControllerTest {
                 .content(objectMapper.writeValueAsString(userRequestDto))
                 .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void update_withAdminLoggedInAndNewUserInformation_verifyUserIsChanged() throws Exception {
+        // Arrange
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+
+        // Act
+        this.mockMvc.perform(put(RESOURCE_PREFIX + OAuthProviderUserManagementApi.UPDATE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(userRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isNoContent());
+
+        // Assert
+        OAuthUser oAuthUser = oAuthUserRepository.findOne(userId);
+        assertEquals(userRequestDto.getUsername(), oAuthUser.getUsername());
+        assertTrue(passwordEncoder.matches(userRequestDto.getPassword(), oAuthUser.getPassword()));
+    }
+
+    @Test
+    public void update_withAdminLoggedInAndAlreadyExistingUsername_verifyUserIsNotChanged() throws Exception {
+        // Arrange
+        oAuthUserRepository.save(new OAuthUser(userRequestDto.getUsername(), "password"));
+
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+
+        // Act
+        this.mockMvc.perform(put(RESOURCE_PREFIX + OAuthProviderUserManagementApi.UPDATE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(userRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isConflict());
+
+        // Assert
+        assertUserUnchanged(userId);
+    }
+
+    private void assertUserUnchanged(Long userId) {
+        OAuthUser oAuthUser = oAuthUserRepository.findOne(userId);
+        assertEquals(DEFAULT_USER, oAuthUser.getUsername());
+        assertTrue(passwordEncoder.matches(DEFAULT_PASSWORD, oAuthUser.getPassword()));
+    }
+
+    @Test
+    public void update_withAdminLoggedInOnlyChangingPassword_verifyUserIsChanged() throws Exception {
+        // Arrange
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+        userRequestDto.setUsername(DEFAULT_USER);
+
+        // Act
+        this.mockMvc.perform(put(RESOURCE_PREFIX + OAuthProviderUserManagementApi.UPDATE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(userRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isNoContent());
+
+        // Assert
+        OAuthUser oAuthUser = oAuthUserRepository.findOne(userId);
+        assertEquals(DEFAULT_USER, oAuthUser.getUsername());
+        assertTrue(passwordEncoder.matches(userRequestDto.getPassword(), oAuthUser.getPassword()));
+    }
+
+
+    @Test
+    public void update_withAdminLoggedInEmptyObject_verifyUserIsNotChanged() throws Exception {
+        // Arrange
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+
+        // Act
+        this.mockMvc.perform(put(RESOURCE_PREFIX + OAuthProviderUserManagementApi.UPDATE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationAdmin())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{}")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isBadRequest());
+
+        // Assert
+        assertUserUnchanged(userId);
     }
 
 }
