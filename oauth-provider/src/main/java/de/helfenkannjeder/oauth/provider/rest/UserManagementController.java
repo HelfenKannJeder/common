@@ -7,7 +7,6 @@ import de.helfenkannjeder.oauth.provider.domain.OAuthUser;
 import de.helfenkannjeder.oauth.provider.domain.repository.OAuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/admin")
-@Secured("ROLE_ADMIN")
 public class UserManagementController implements OAuthProviderUserManagementApi {
 
     @Autowired

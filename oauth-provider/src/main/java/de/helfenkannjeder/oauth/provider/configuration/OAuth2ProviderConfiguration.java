@@ -26,6 +26,7 @@ public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAd
     public static final String AUTHORIZATION_CODE = "authorization_code";
     public static final String PASSWORD = "password";
     public static final String SCOPE_DEFAULT = "default";
+    public static final String REFRESH_TOKEN = "refresh_token";
 
     private TokenStore tokenStore = new InMemoryTokenStore();
 
@@ -47,14 +48,14 @@ public class OAuth2ProviderConfiguration extends AuthorizationServerConfigurerAd
         clients.inMemory()
                 .withClient(adminClientId)
                 .secret(adminSecret)
-                .authorizedGrantTypes(CLIENT_CREDENTIALS)
+                .authorizedGrantTypes(CLIENT_CREDENTIALS, REFRESH_TOKEN)
                 .scopes(SCOPE_DEFAULT)
                 .authorities(OAuthProviderAuthority.ROLE_ADMIN.getAuthority(),
                         OAuthProviderAuthority.ROLE_USER.getAuthority())
             .and()
                 .withClient(come2helpClientId)
                 .secret(come2helpClientSecret)
-                .authorizedGrantTypes(AUTHORIZATION_CODE)
+                .authorizedGrantTypes(AUTHORIZATION_CODE, REFRESH_TOKEN)
                 .scopes(SCOPE_DEFAULT)
                 .authorities(OAuthProviderAuthority.ROLE_USER.getAuthority());
         // @formatter:on
