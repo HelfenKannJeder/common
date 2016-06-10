@@ -61,6 +61,6 @@ public class UserManagementController implements OAuthProviderUserManagementApi 
     @RequestMapping(value = DELETE, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
-        throw new RuntimeException("Not yet implemented");
+        oAuthUserRepository.delete(Long.valueOf(id));
     }
 }

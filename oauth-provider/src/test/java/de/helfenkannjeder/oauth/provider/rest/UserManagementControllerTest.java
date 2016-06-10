@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -227,4 +229,34 @@ public class UserManagementControllerTest extends AbstractOAuthControllerTest {
         assertUserUnchanged(userId);
     }
 
+    @Test
+    public void delete_withAdminLoggedIn_verifyUserIsRemoved() throws Exception {
+        // Arrange
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+
+        // Act
+        this.mockMvc.perform(delete(RESOURCE_PREFIX + OAuthProviderUserManagementApi.DELETE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationAdmin())
+        )
+                .andExpect(status().isNoContent());
+
+        // Assert
+        OAuthUser oAuthUser = oAuthUserRepository.findOne(userId);
+        assertNull(oAuthUser);
+    }
+
+    @Test
+    public void delete_withNormalUserLoggedIn_verifyUserIsNotRemoved() throws Exception {
+        // Arrange
+        Long userId = oAuthUserRepository.findOneByUsernameIgnoreCase(DEFAULT_USER).getId();
+
+        // Act
+        this.mockMvc.perform(delete(RESOURCE_PREFIX + OAuthProviderUserManagementApi.DELETE.replace("{id}", userId.toString()))
+                .header("Authorization", getAuthorizationDefaultUser())
+        )
+                .andExpect(status().isForbidden());
+
+        // Assert
+        assertUserUnchanged(userId);
+    }
 }

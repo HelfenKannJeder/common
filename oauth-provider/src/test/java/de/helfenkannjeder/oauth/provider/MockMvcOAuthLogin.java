@@ -8,6 +8,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.Base64Utils;
@@ -55,26 +56,31 @@ public class MockMvcOAuthLogin {
     public String getAccessTokenWithAuthorizationCode(String clientId, String secret, String username, String password) throws Exception {
         MockHttpSession mockSession = new MockHttpSession(webApplicationContext.getServletContext(), UUID.randomUUID().toString());
 
-        mockMvc.perform(
+        ResultActions query = mockMvc.perform(
                 get(ENDPOINT_OAUTH_AUTHORIZATION)
                         .session(mockSession)
                         .header("Authorization", createBase64Auth(username, password))
                         .param("response_type", "code")
                         .param("redirect_uri", "/")
                         .param("client_id", clientId)
-        )
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl(ENDPOINT_CONFIRM_ACCESS))
-                .andReturn().getResponse();
+        );
+        MockHttpServletResponse response = query.andReturn().getResponse();
 
-        MockHttpServletResponse response = mockMvc.perform(
-                post(ENDPOINT_OAUTH_AUTHORIZATION)
-                        .session(mockSession)
-                        .header("Authorization", createBase64Auth(username, password))
-                        .param("scope.default", "true")
-                        .param("user_oauth_approval", "true")
-                        .param("authorize", "Authorize")
-        )
+        // needs to confirm access
+        if (response.getStatus() == 200) {
+            query.andExpect(forwardedUrl(ENDPOINT_CONFIRM_ACCESS));
+
+            query = mockMvc.perform(
+                    post(ENDPOINT_OAUTH_AUTHORIZATION)
+                            .session(mockSession)
+                            .header("Authorization", createBase64Auth(username, password))
+                            .param("scope.default", "true")
+                            .param("user_oauth_approval", "true")
+                            .param("authorize", "Authorize")
+            );
+        }
+
+        response = query
                 .andExpect(status().is3xxRedirection())
                 .andReturn().getResponse();
 
