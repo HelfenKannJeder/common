@@ -55,11 +55,11 @@ public class MockMvcOAuthLogin {
 
     }
 
-    public String getAccessTokenWithClientSecret(String clientId, String secret) throws Exception {
+    public OAuthInformation getAccessTokenWithClientSecret(String clientId, String secret) throws Exception {
         return getAccessToken(post(ENDPOINT_OAUTH_TOKEN), OAuth2ProviderConfiguration.CLIENT_CREDENTIALS, clientId, secret);
     }
 
-    public String getAccessTokenWithAuthorizationCode(String clientId, String secret, String username, String password) throws Exception {
+    public OAuthInformation getAccessTokenWithAuthorizationCode(String clientId, String secret, String username, String password) throws Exception {
         MockHttpSession mockSession = new MockHttpSession(webApplicationContext.getServletContext(), UUID.randomUUID().toString());
 
         String authorization = createBase64Auth(username, password);
@@ -106,24 +106,30 @@ public class MockMvcOAuthLogin {
         return getAccessTokenWithAuthorizationCode(clientId, secret, code);
     }
 
-    private String getAccessTokenWithAuthorizationCode(String clientId, String secret, String code) throws Exception {
+    private OAuthInformation getAccessTokenWithAuthorizationCode(String clientId, String secret, String code) throws Exception {
         MockHttpServletRequestBuilder post = post(ENDPOINT_OAUTH_TOKEN)
                 .param("code", code)
                 .param("redirect_uri", "/");
         return getAccessToken(post, OAuth2ProviderConfiguration.AUTHORIZATION_CODE, clientId, secret);
     }
 
-    public String getAccessTokenWithPassword(String clientId, String secret, String username, String password) throws Exception {
+    public OAuthInformation getAccessTokenWithPassword(String clientId, String secret, String username, String password) throws Exception {
         MockHttpServletRequestBuilder post = post(ENDPOINT_OAUTH_TOKEN)
                 .param("username", username)
                 .param("password", password);
         return getAccessToken(post, OAuth2ProviderConfiguration.PASSWORD, clientId, secret);
     }
 
+    public OAuthInformation getAccessTokenWithRefreshToken(String clientId, String secret, String refreshToken) throws Exception {
+        MockHttpServletRequestBuilder post = post(ENDPOINT_OAUTH_TOKEN)
+                .param("refresh_token", refreshToken);
+        return getAccessToken(post, OAuth2ProviderConfiguration.REFRESH_TOKEN, clientId, secret);
+    }
+
     /*
      * Original from https://github.com/royclarkson/spring-rest-service-oauth/blob/master/src/test/java/hello/GreetingControllerTest.java
      */
-    private String getAccessToken(MockHttpServletRequestBuilder post, String grantType, String clientId, String secret) throws Exception {
+    private OAuthInformation getAccessToken(MockHttpServletRequestBuilder post, String grantType, String clientId, String secret) throws Exception {
 
         // @formatter:off
         String content = mockMvc.perform(post
@@ -142,12 +148,37 @@ public class MockMvcOAuthLogin {
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap result = objectMapper.readValue(content, HashMap.class);
 
-        return "Bearer " + result.get("access_token");
+        return new OAuthInformation(
+                (String) result.get("access_token"),
+                (String) result.get("refresh_token")
+        );
     }
 
     private String createBase64Auth(String username, String password) {
         return "Basic " + new String(Base64Utils.encode((username + ":" + password).getBytes()));
     }
 
+
+    public static class OAuthInformation {
+        private final String accessToken;
+        private final String refreshToken;
+
+        public OAuthInformation(String accessToken, String refreshToken) {
+            this.accessToken = accessToken;
+            this.refreshToken = refreshToken;
+        }
+
+        public String getAuthorization() {
+            return "Bearer " + getAccessToken();
+        }
+
+        public String getAccessToken() {
+            return accessToken;
+        }
+
+        public String getRefreshToken() {
+            return refreshToken;
+        }
+    }
 
 }

@@ -40,4 +40,13 @@ public class SimpleAuthorizationTest extends AbstractOAuthControllerTest {
         )
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void refreshToken_withRefreshToken_returnsNewToken() throws Exception {
+        // Arrange
+        MockMvcOAuthLogin.OAuthInformation oAuthInformation = mockMvcOAuthLogin.getAccessTokenWithPassword("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD);
+
+        // Act + Assert
+        mockMvcOAuthLogin.getAccessTokenWithRefreshToken("come2help-web", "secret", oAuthInformation.getRefreshToken());
+    }
 }

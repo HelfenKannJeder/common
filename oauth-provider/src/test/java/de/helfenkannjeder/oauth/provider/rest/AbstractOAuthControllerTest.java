@@ -27,12 +27,13 @@ public abstract class AbstractOAuthControllerTest {
 
     public static final String DEFAULT_USER = "my-default-user";
     public static final String DEFAULT_PASSWORD = "my-default-password";
+
     @Autowired
     protected OAuthUserRepository oAuthUserRepository;
 
     MockMvc mockMvc;
-    @Autowired
 
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -40,8 +41,9 @@ public abstract class AbstractOAuthControllerTest {
 
     @Autowired
     private Filter springSecurityFilterChain;
+
     @Autowired
-    private MockMvcOAuthLogin mockMvcOAuthLogin;
+    MockMvcOAuthLogin mockMvcOAuthLogin;
 
     @Before
     public void initMockMvc() throws Exception {
@@ -54,14 +56,14 @@ public abstract class AbstractOAuthControllerTest {
     }
 
     protected String getAuthorizationAdmin() throws Exception {
-        return mockMvcOAuthLogin.getAccessTokenWithClientSecret("oauth-provider-admin", "default-secret");
+        return mockMvcOAuthLogin.getAccessTokenWithClientSecret("oauth-provider-admin", "default-secret").getAuthorization();
     }
 
     protected String getAuthorizationDefaultUser() throws Exception {
-        return mockMvcOAuthLogin.getAccessTokenWithAuthorizationCode("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD);
+        return mockMvcOAuthLogin.getAccessTokenWithAuthorizationCode("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD).getAuthorization();
     }
 
     protected String getAuthorizationDefaultUserWithPassword() throws Exception {
-        return mockMvcOAuthLogin.getAccessTokenWithPassword("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD);
+        return mockMvcOAuthLogin.getAccessTokenWithPassword("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD).getAuthorization();
     }
 }
