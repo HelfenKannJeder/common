@@ -1,29 +1,35 @@
-package de.helfenkannjeder.oauth.provider.api.dto;
+package de.helfenkannjeder.oauth.provider.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * @author Valentin Zickner <valentin.zickner@helfenkannjeder.de>
  */
-public class UserRequestDto {
+@Entity
+public class OAuthUser {
 
-    @NotNull
-    @NotEmpty
+    @Id
+    @GeneratedValue
+    private Long id;
     private String username;
-
-    @NotNull
-    @NotEmpty
     private String password;
 
-    public UserRequestDto() {
-        // Setup after creation
+    public OAuthUser() {
     }
 
-    public UserRequestDto(String username, String password) {
+    public OAuthUser(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
