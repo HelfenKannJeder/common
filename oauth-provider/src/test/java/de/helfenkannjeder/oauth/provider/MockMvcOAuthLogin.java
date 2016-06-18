@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.web.csrf.DefaultCsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -36,6 +38,10 @@ public class MockMvcOAuthLogin {
     public static final String ENDPOINT_OAUTH_AUTHORIZATION = "/oauth/authorize";
     public static final String ENDPOINT_CONFIRM_ACCESS = "/oauth/confirm_access";
 
+    private static final String DEFAULT_CSRF_TOKEN_ATTR_NAME = HttpSessionCsrfTokenRepository.class
+            .getName().concat(".CSRF_TOKEN");
+
+
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
 
@@ -56,10 +62,11 @@ public class MockMvcOAuthLogin {
     public String getAccessTokenWithAuthorizationCode(String clientId, String secret, String username, String password) throws Exception {
         MockHttpSession mockSession = new MockHttpSession(webApplicationContext.getServletContext(), UUID.randomUUID().toString());
 
+        String authorization = createBase64Auth(username, password);
         ResultActions query = mockMvc.perform(
                 get(ENDPOINT_OAUTH_AUTHORIZATION)
                         .session(mockSession)
-                        .header("Authorization", createBase64Auth(username, password))
+                        .header("Authorization", authorization)
                         .param("response_type", "code")
                         .param("redirect_uri", "/")
                         .param("client_id", clientId)
@@ -70,10 +77,20 @@ public class MockMvcOAuthLogin {
         if (response.getStatus() == 200) {
             query.andExpect(forwardedUrl(ENDPOINT_CONFIRM_ACCESS));
 
+            // Collect CSRF token from session
+            mockMvc.perform(get(ENDPOINT_CONFIRM_ACCESS)
+                    .session(mockSession)
+                    .header("Authorization", authorization)
+            )
+                    .andExpect(status().isOk());
+
+            DefaultCsrfToken csrfToken = (DefaultCsrfToken) mockSession.getAttribute(DEFAULT_CSRF_TOKEN_ATTR_NAME);
+
             query = mockMvc.perform(
                     post(ENDPOINT_OAUTH_AUTHORIZATION)
                             .session(mockSession)
-                            .header("Authorization", createBase64Auth(username, password))
+                            .header("Authorization", authorization)
+                            .header(csrfToken.getHeaderName(), csrfToken.getToken())
                             .param("scope.default", "true")
                             .param("user_oauth_approval", "true")
                             .param("authorize", "Authorize")

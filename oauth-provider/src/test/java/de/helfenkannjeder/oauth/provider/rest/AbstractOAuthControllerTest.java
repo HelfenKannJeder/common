@@ -60,4 +60,8 @@ public abstract class AbstractOAuthControllerTest {
     protected String getAuthorizationDefaultUser() throws Exception {
         return mockMvcOAuthLogin.getAccessTokenWithAuthorizationCode("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD);
     }
+
+    protected String getAuthorizationDefaultUserWithPassword() throws Exception {
+        return mockMvcOAuthLogin.getAccessTokenWithPassword("come2help-web", "secret", AbstractOAuthControllerTest.DEFAULT_USER, AbstractOAuthControllerTest.DEFAULT_PASSWORD);
+    }
 }

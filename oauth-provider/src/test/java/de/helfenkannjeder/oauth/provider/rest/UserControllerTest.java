@@ -29,6 +29,19 @@ public class UserControllerTest extends AbstractOAuthControllerTest {
     }
 
     @Test
+    public void currentUser_withNormalUserAndPasswordAuthentication_expectUsername() throws Exception {
+        // Act + Assert
+        this.mockMvc.perform(get("/user/information")
+                .header("Authorization", getAuthorizationDefaultUserWithPassword())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$").isMap())
+                .andExpect(jsonPath("$.username").value(DEFAULT_USER));
+    }
+
+    @Test
     public void currentUser_withAdmin_expectNoUsername() throws Exception {
         // Act + Assert
         this.mockMvc.perform(get("/user/information")
