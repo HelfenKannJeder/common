@@ -13,8 +13,8 @@
     <artifactId>oauth-provider-api</artifactId>
 
     <properties>
-        <feign.version>8.16.2</feign.version>
-        <jackson.version>2.7.4</jackson.version>
+        <feign.version>8.17.0</feign.version>
+        <jackson.version>2.7.5</jackson.version>
     </properties>
 
     <dependencies>
